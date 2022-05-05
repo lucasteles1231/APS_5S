@@ -34,10 +34,28 @@ def openPage(origin, destiny):
 
 
 # Applications functions
-
 @eel.expose
 def authenticate(usuario, senha):
-  return True
+  global client
+  client.send(usuario.encode('UTF-8'))
+  
+  while True:
+    try:
+      client.send(str("#!usuario!##!senha!# " + str(usuario) + "  :  " + str(senha)).encode('UTF-8'))
+      break
+    except:
+      pass
+
+  while True:
+    try:
+      message = client.recv(2048).decode('UTF-8')
+      if message == 'True':
+        return True
+      else:
+        return False
+    except:
+      pass
+
 
 @eel.expose
 def startConnection(IpPort):
@@ -46,18 +64,20 @@ def startConnection(IpPort):
     ServerIP = str(IpPort).split(":")[0]
     PORT = str(IpPort).split(":")[1]
     client.connect((str(ServerIP), int(PORT)))
-
     return True
   except:
     return False
+
 
 @eel.expose
 def sendMessage():
   print("teste")
 
+
 @eel.expose
 def onReceiveMessage():
   print("teste")
+
 
 @eel.expose
 def registerNewUser(name, email, password, userType):

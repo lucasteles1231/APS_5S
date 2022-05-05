@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 import mysql.connector
 
 
@@ -51,20 +52,16 @@ def handleMessages(client):
     while True:
         try:
             receiveMessageFromClient = client.recv(2048).decode('UTF-8')
-            print(receiveMessageFromClient[:21])
-            print(receiveMessageFromClient)
-
             if receiveMessageFromClient[:21] == "#!usuario!##!senha!# ":
-                print('entrou')
                 msg = receiveMessageFromClient[21:]
                 user = msg.split("  :  ")[0]
                 password = msg.split("  :  ")[1]
                 UserValidation(user, password, client)
-            if receiveMessageFromClient[:5] == "getid":
-                try:
-                    dadosDB(receiveMessageFromClient[6:], client)
-                except:
-                    print(f"não achou o ID solicitado por {usernames[clients.index(client)]}")
+            #if receiveMessageFromClient[:5] == "getid":
+            #    try:
+            #        dadosDB(receiveMessageFromClient[6:], client)
+            #    except:
+            #        print(f"não achou o ID solicitado por {usernames[clients.index(client)]}")
             else:
                 globalMessage(f'{usernames[clients.index(client)]}: {receiveMessageFromClient}'.encode('UTF-8'))
         except:
@@ -82,8 +79,15 @@ def initialConnection():
         try:
             client, address = server.accept()
             clients.append(client)
-            client.send('getUser'.encode('UTF-8'))
-            username = client.recv(2048).decode('UTF-8')
+            while True:
+                try:
+                    time.sleep(0.5)
+                    username = client.recv(2048).decode('UTF-8')
+                    break
+                except:
+                    pass
+            #client.send('getUser'.encode('UTF-8'))
+            print(username)
             if not username in usernames:
                 usernames.append(username)
                 #globalMessage(f'{username} just joined the chat!'.encode('UTF-8'))
