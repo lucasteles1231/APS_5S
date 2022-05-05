@@ -1,0 +1,114 @@
+.main__container {
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 250px auto;
+}
+
+.main__container .sidebar {
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  display: grid;
+  grid-template-rows: 120px auto;
+}
+
+.sidebar__logo {
+  border: 1px solid #d2dbea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo__image {
+  height: 100%;
+}
+
+/* .sidebar__menu {
+} */
+
+.chat__header {
+  width: 100%;
+  height: 100px;
+  background-color: white;
+  display: flex;
+  padding: 10px 30px;
+  align-items: center;
+}
+
+.header__perfil {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 100px;
+}
+
+.perfil__icone {
+  background-color: #b8b9bb;
+  padding: 10px 12px;
+  border-radius: 50px;
+  color: #fff;
+  font-weight: bold;
+  margin-right: 16px;
+}
+
+h1 {
+  color: #6d6b6c;
+}
+
+.chat__subheader {
+  width: 100%;
+  height: 50px;
+  background-color: #e5eaf0;
+  display: flex;
+  flex-direction: row;
+}
+
+.chat__container {
+  width: 100%;
+  height: 100%;
+  background-color: #d2dbea;
+}
+
+.chat__mensagens {
+  width: 100%;
+  height: calc(100% - 100px);
+  display: grid;
+  grid-template-rows: auto 85px;
+}
+
+.mensagens__historico {
+  width: 100%;
+  height: 100%;
+}
+
+.mensagens__chat {
+  width: calc(100% - 60px);
+  height: 100%;
+  background-color: #e5eaf0;
+  display: grid;
+  grid-template-columns: 50px auto 50px;
+  padding: 9px 30px;
+  gap: 16px;
+}
+
+.chat__input {
+  width: 100%;
+  height: 40px;
+  font-size: 24px;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  padding: 3px 10px 0px;
+}
+
+.chat__icon,
+.enviar__btn {
+  padding: 4px;
+  height: 40px;
+  cursor: pointer;
+}
+
+form * {
+  color: #8999b5;
+}

@@ -14,6 +14,16 @@ print(f'Server is Up and Listening on {HOST}:{PORT}')
 clients = []
 usernames = []
 
+def UserValidation(user, password, client):
+    con = mysql.connector.connect(host='localhost', database='APS_Ambiental',user='root',password='root')
+    if con.is_connected():
+        cursor = con.cursor()
+        cursor.execute(f"SELECT * FROM USUARIOS WHERE USUARIO = '{user}' AND SENHA = '{password}';")
+        result = cursor.fetchall()
+        if len(result) != 0:
+            client.send('True'.encode('UTF-8'))
+
+
 def dadosDB(id, client):
     con = mysql.connector.connect(host='localhost', database='MYSQL_PYTHON',user='root',password='root')
     if con.is_connected():
@@ -24,7 +34,7 @@ def dadosDB(id, client):
             getDB(f'{usernames[clients.index(client)]}: || {result[0][0]} || {result[0][1]} || {result[0][2]} || {result[0][3]} || {result[0][4]} || {result[0][5]} ||'.encode('UTF-8'))
         else:
             getDB(f'{usernames[clients.index(client)]}: ID inválido'.encode('UTF-8'))
-
+        
 def globalMessage(message):
     for client in clients:
         if usernames[clients.index(client)] != message[:len(usernames[clients.index(client)])].decode('UTF-8'):
@@ -41,6 +51,15 @@ def handleMessages(client):
     while True:
         try:
             receiveMessageFromClient = client.recv(2048).decode('UTF-8')
+            print(receiveMessageFromClient[:21])
+            print(receiveMessageFromClient)
+
+            if receiveMessageFromClient[:21] == "#!usuario!##!senha!# ":
+                print('entrou')
+                msg = receiveMessageFromClient[21:]
+                user = msg.split("  :  ")[0]
+                password = msg.split("  :  ")[1]
+                UserValidation(user, password, client)
             if receiveMessageFromClient[:5] == "getid":
                 try:
                     dadosDB(receiveMessageFromClient[6:], client)
@@ -67,7 +86,7 @@ def initialConnection():
             username = client.recv(2048).decode('UTF-8')
             if not username in usernames:
                 usernames.append(username)
-                globalMessage(f'{username} just joined the chat!'.encode('UTF-8'))
+                #globalMessage(f'{username} just joined the chat!'.encode('UTF-8'))
                 user_thread = threading.Thread(target=handleMessages,args=(client,))
                 user_thread.start()
                 print(f"New Connetion: {str(address)}")

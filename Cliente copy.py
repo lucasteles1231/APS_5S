@@ -1,11 +1,5 @@
 import socket
 import threading
-import eel
-
-# inicia o client socket
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-###################################
 
 # var para coletar IPV4 do servidor
 ServerIP = input("Server IP: ")
@@ -13,6 +7,8 @@ ServerIP = input("Server IP: ")
 # var para coletar porta aberta no servidor
 PORT = int(input("Port: "))
 
+# inicia o client socket
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 try:
     # var que recebe o nome escolhido pelo usuário
     username = input('Enter a username: ')

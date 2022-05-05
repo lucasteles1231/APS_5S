@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Chat</title>
+    <script language="JavaScript">
+      window.moveTo(0, 0);
+      window.resizeTo(screen.width, screen.height)
+    </script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/chat.css" />
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico" />
+  </head>
+  <body>
+    <main id="chat" class="main__container">
+      <div class="sidebar">
+        <div class="sidebar__logo">
+          <img class="logo__image" src="../../assets/logo.png" />
+        </div>
+        <div class="sidebar__menu">
+          <button class="menu__item" type="button" onclick="irParaAnalytics()">
+            Analytics
+          </button>
+          <button class="menu__item menu--atual" type="button">Chat</button>
+          <button class="menu__item" type="button" onclick="irParaUsuarios()">
+            Usuários
+          </button>
+        </div>
+      </div>
+      <div class="chat__container">
+        <header class="chat__header">
+          <h1>CHAT</h1>
+          <div class="header__perfil">
+            <p class="perfil__icone">M</p>
+            <p class="perfil__nome">Mayara Souza</p>
+          </div>
+        </header>
+        <!-- <div class="chat__subheader"></div> -->
+        <div class="chat__mensagens">
+          <div class="mensagens__historico"></div>
+          <div class="mensagens__chat">
+            <div>
+              <img class="chat__icon" src="../../assets/circulo.png" />
+            </div>
+            <div>
+              <input type="text" class="chat__input" placeholder="Mensagem" />
+            </div>
+            <div>
+              <img
+                onclick="teste()"
+                class="enviar__btn"
+                src="../../assets/enviar.png"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="../scripts/chat.js"></script>
+  </body>
+</html>

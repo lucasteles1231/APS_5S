@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Atividade Prática Supervisionada - Dashboard</title>
+    <script language="JavaScript">
+      window.moveTo(0, 0);
+      window.resizeTo(screen.width, screen.height)
+    </script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/dashboard.css" />
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico" />
+  </head>
+  <body>
+    <main id="chat" class="main__container">
+      <div class="sidebar">
+        <div class="sidebar__logo">
+          <img class="logo__image" src="../../assets/logo.png" />
+        </div>
+        <div class="sidebar__menu">
+          <button class="menu__item menu--atual" type="button">
+            Analytics
+          </button>
+          <button class="menu__item" type="button" onclick="irParaChat()">
+            Chat
+          </button>
+          <button class="menu__item" type="button" onclick="irParaUsuarios()">
+            Usuários
+          </button>
+        </div>
+      </div>
+      <div class="dashboard__container">
+        <header class="dashboard__header">
+          <h1>DASHBOARD</h1>
+          <div class="header__perfil">
+            <p class="perfil__icone">M</p>
+            <p class="perfil__nome">Mayara Souza</p>
+          </div>
+        </header>
+      </div>
+    </main>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="../scripts/dashboard.js"></script>
+  </body>
+</html>

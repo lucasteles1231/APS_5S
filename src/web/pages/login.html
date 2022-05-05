@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Atividade Prática Supervisionada - Login</title>
+    <script language="JavaScript">
+      window.dispatchEvent(new KeyboardEvent('keydown', {
+        which: 38,
+        keyCode: 38,
+        shiftKey: false,
+        altKey: false,
+        ctrlKey: false,
+        metaKey: true,
+        key: 'ArrowUp'
+      }));
+
+      console.log('entrou')
+
+    </script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/login.css" />
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico" />
+  </head>
+  <body>
+    <main id="login" class="login__container">
+      <div class="login">
+        <header class="login__header">
+          <h1>Login</h1>
+          <p>Faça login para continuar</p>
+        </header>
+        <form class="login__form">
+          <label for="ip-connection">Por favor, insira o ip e a porta</label>
+          <input
+            id="ip-connection"
+            type="text"
+            placeholder="0.0.0.0:0"
+          />
+          <button
+            type="button"
+            id="con__form__btn"
+            onclick="connect()"
+          >
+            CONNECT
+          </button>
+
+          <label for="login-user">Por favor, insira o e-mail</label>
+          <input
+            id="login-user"
+            type="text"
+            placeholder="email@dominio.com.br"
+            disabled=true
+          />
+          <label for="login-password">Digite a senha</label>
+          <input 
+            id="login-password" 
+            type="password" 
+            placeholder="*********" 
+            disabled=true
+          />
+          <button
+            type="button"
+            class="login__form__btn"
+            onclick="authenticate()"
+            desabled="true"
+          >
+            LOGIN
+          </button>
+        </form>
+      </div>
+    </main>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script type="text/javascript" src="../scripts/login.js"></script>
+  </body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <title>Atividade Prática Supervisionada - Dashboard</title>
+    <script language="JavaScript">
+      window.moveTo(0, 0);
+      window.resizeTo(screen.width, screen.height)
+    </script>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../styles/cadastro.css" />
+    <link rel="stylesheet" href="../styles/global.css" />
+    <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico" />
+  </head>
+  <body>
+    <main id="chat" class="main__container">
+      <div class="sidebar">
+        <div class="sidebar__logo">
+          <img class="logo__image" src="../../assets/logo.png" />
+        </div>
+        <div class="sidebar__menu">
+          <button class="menu__item" type="button" onclick="irParaAnalytics()">
+            Analytics
+          </button>
+          <button class="menu__item" type="button" onclick="irParaChat()">
+            Chat
+          </button>
+          <button class="menu__item menu--atual" type="button">Usuários</button>
+        </div>
+      </div>
+      <div class="cadastro__container">
+        <header class="cadastro__header">
+          <h1>USUÁRIOS</h1>
+          <div class="header__perfil">
+            <p class="perfil__icone">M</p>
+            <p class="perfil__nome">Mayara Souza</p>
+          </div>
+        </header>
+        <form>
+          <h2>CADASTRAR NOVO USUÁRIO</h2>
+          <label for="login-user">Por favor, digite o nome completo</label>
+          <input id="cadastro-name" type="text" placeholder="Nome completo" />
+          <label for="cadastro-user">Por favor, insira o e-mail</label>
+          <input
+            id="cadastro-email"
+            type="text"
+            placeholder="email@dominio.com.br"
+          />
+          <label for="login-user">Digite a senha</label>
+          <input
+            id="cadastro-password"
+            type="password"
+            placeholder="**********"
+          />
+          <label for="login-user">Selecione o tipo de usuário</label>
+          <select name="tipos" id="cadastro-type">
+            <option value="0" disabled selected>Selecione</option>
+            <option value="1">Secretária</option>
+            <option value="2">Inspetor</option>
+          </select>
+          <button type="button" class="login__form__btn" onclick="cadastrar()">
+            CADASTRAR
+          </button>
+        </form>
+      </div>
+    </main>
+    <script type="text/javascript" src="/eel.js"></script>
+    <script src="../scripts/cadastro.js"></script>
+  </body>
+</html>

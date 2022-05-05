@@ -1,0 +1,44 @@
+* {
+  color: #8999b5;
+}
+
+.login__container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #aabddd;
+}
+
+.login {
+  width: 40%;
+  min-width: 350px;
+  height: 100%;
+  background-color: #fff;
+  display: block;
+  margin: 0px 0px 0px auto;
+  padding: 60px 0px;
+}
+
+.login__header {
+  border-bottom: 1px solid #00000030;
+  padding-bottom: 48px;
+  text-align: center;
+  margin-bottom: 48px;
+}
+
+.login__header h1 {
+  padding-bottom: 8px;
+}
+
+.login__form {
+  width: 60%;
+  display: block;
+  margin: auto;
+}
+
+.login__form button {
+  margin: 20px auto 0px;
+}
+
+#con__form__btn {
+  margin: 0px auto 20px;
+}
