@@ -3,51 +3,153 @@ import threading
 import time
 import mysql.connector
 
+# Inicia servidor
+while True:
+    try:
+        HOST = input("Host: ")
+        PORT = int(input("Port: "))
+        server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        server.bind((HOST,PORT))
+        server.listen()
+        print(f'Server is Up and Listening on {HOST}:{PORT} !!')
+        break
+    except:
+        print(f'Unable to start server, try another IP and port!!')
+        pass
 
-HOST = input("Host: ")
-PORT = int(input("Port: "))
+# Faz conexão com o banco
+while True:
+    try:
+        USERdb = input("User DB: ")
+        PASSWORDdb = input("Password DB: ")
+        con = mysql.connector.connect(host='localhost', database='APS_Ambiental',user=USERdb,password=PASSWORDdb)
+        print(f'Data base is conected!!')
+        break
+    except:
+        print(f'Invalid database username or password!!')
+        pass
 
-server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-server.bind((HOST,PORT))
-server.listen()
-print(f'Server is Up and Listening on {HOST}:{PORT}')
-
+# Guarda endereço ip e nome dos usuarios
 clients = []
 usernames = []
 
+# Inicia conexão Server-Client
+def initialConnection():
+    global clients
+    global usernames
+    while True:
+        try:
+            client, address = server.accept()
+            user_thread = threading.Thread(target=ClientMessages,args=(client, address))
+            user_thread.start()
+            print(f"New Connetion: {str(address)}")
+        except:
+            pass
+
+# Recebe mensagens do usuario
+def ClientMessages(client, address):
+    global usernames
+    global clients
+    while True:
+        try:
+            # Mensagem recebida do cliente
+            msg = (client.recv(2048).decode('UTF-8'))
+            
+            # Se a mensagem vier com "#!usuario!##!senha!# " no inicio será considerada como dados de login para validação
+            if msg[:21] == "#!usuario!##!senha!# ":
+                msg = msg[21:]
+                username = msg.split("  :  ")[0]
+                password = msg.split("  :  ")[1]
+                response = UserValidation(username, password, client)
+                if response == 0:
+                    client.send('CONFIRMED USER'.encode('UTF-8'))
+                    usernames.append(user)
+                    clients.append(client)
+                    print(f"{str(user)} completed connection via login!!")
+                elif response == 1:
+                    client.send('USER IS ALREADY CONNECTED'.encode('UTF-8'))
+                elif response == 2:
+                    client.send('USER DOES NOT EXIST'.encode('UTF-8'))
+            
+            elif msg[:9] == "#!chat!# ":
+
+
+        except:
+            pass
+
+
+# Valida o úsuario e senha
 def UserValidation(user, password, client):
-    con = mysql.connector.connect(host='localhost', database='APS_Ambiental',user='root',password='root')
+    global con
+    global usernames
     if con.is_connected():
         cursor = con.cursor()
         cursor.execute(f"SELECT * FROM USUARIOS WHERE USUARIO = '{user}' AND SENHA = '{password}';")
         result = cursor.fetchall()
         if len(result) != 0:
-            client.send('True'.encode('UTF-8'))
-
-
-def dadosDB(id, client):
-    con = mysql.connector.connect(host='localhost', database='MYSQL_PYTHON',user='root',password='root')
-    if con.is_connected():
-        cursor = con.cursor()
-        cursor.execute(f"SELECT * FROM Tabela_Dados WHERE ID = {id};")
-        result = cursor.fetchall()
-        if len(result) == 1:
-            getDB(f'{usernames[clients.index(client)]}: || {result[0][0]} || {result[0][1]} || {result[0][2]} || {result[0][3]} || {result[0][4]} || {result[0][5]} ||'.encode('UTF-8'))
+            if not user in usernames:
+                return 0
+            else:
+                return 1
         else:
-            getDB(f'{usernames[clients.index(client)]}: ID inválido'.encode('UTF-8'))
-        
+            return 2
+
+
+
+########### INICIO (AGUARDA A CONEXÃO COM O CLIENTE) ##############
+initialConnection()
+#################################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##############################
+
+
+
+"""
 def globalMessage(message):
     for client in clients:
         if usernames[clients.index(client)] != message[:len(usernames[clients.index(client)])].decode('UTF-8'):
             client.send(message)
+"""
 
+
+######################
+
+
+""" 
 def getDB(message):
     for client in clients:
         if usernames[clients.index(client)] == message[:len(usernames[clients.index(client)])].decode('UTF-8'):
             message = message.decode('UTF-8')[len(usernames[clients.index(client)])+2:].encode('UTF-8')
             client.send(message)
+"""
 
 
+######################
+
+
+
+""" 
 def handleMessages(client):
     while True:
         try:
@@ -72,33 +174,19 @@ def handleMessages(client):
             print(f'{clientLeavedUsername} has left the chat...')
             globalMessage(f'{clientLeavedUsername} has left us...'.encode('UTF-8'))
             usernames.remove(clientLeavedUsername)
+"""
 
+###########################
 
-def initialConnection():
-    while True:
-        try:
-            client, address = server.accept()
-            clients.append(client)
-            while True:
-                try:
-                    time.sleep(0.5)
-                    username = client.recv(2048).decode('UTF-8')
-                    break
-                except:
-                    pass
-            #client.send('getUser'.encode('UTF-8'))
-            print(username)
-            if not username in usernames:
-                usernames.append(username)
-                #globalMessage(f'{username} just joined the chat!'.encode('UTF-8'))
-                user_thread = threading.Thread(target=handleMessages,args=(client,))
-                user_thread.start()
-                print(f"New Connetion: {str(address)}")
-            else: 
-                clients.remove(client)
-                client.send('Name already exists on the server'.encode('UTF-8'))
-                client.close()
-        except:
-            pass
-
-initialConnection()
+""" 
+def dadosDB(id, client):
+    con = mysql.connector.connect(host='localhost', database='MYSQL_PYTHON',user='root',password='root')
+    if con.is_connected():
+        cursor = con.cursor()
+        cursor.execute(f"SELECT * FROM Tabela_Dados WHERE ID = {id};")
+        result = cursor.fetchall()
+        if len(result) == 1:
+            getDB(f'{usernames[clients.index(client)]}: || {result[0][0]} || {result[0][1]} || {result[0][2]} || {result[0][3]} || {result[0][4]} || {result[0][5]} ||'.encode('UTF-8'))
+        else:
+            getDB(f'{usernames[clients.index(client)]}: ID inválido'.encode('UTF-8'))
+"""

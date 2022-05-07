@@ -3,19 +3,23 @@ function closeLoginScreen() {
   window.close();
 }
 
-async function authenticate() {
+function authenticate() {
   const user = document.getElementById("login-user").value;
   const password = document.getElementById("login-password").value;
-
-  await eel
-    .authenticate(user, password)()
-    .then((result) => {
-      if (result) {
-        eel.openPage("login.html", "chat.html");
-      } else {
-        alert("Usuário e senha não coincidem!");
-      }
-    });
+  if(user != "" && password != "") {
+      eel.authenticate(user, password)()
+      .then((result) => {
+        if (result == 'CONFIRMED USER') {
+          eel.openPage("login.html", "chat.html");
+        } else if (result == 'USER IS ALREADY CONNECTED') {
+          alert("Usuário já conectado!");
+        } else if (result == 'USER DOES NOT EXIST') {
+          alert("Usuário não existe!");
+        }
+      });
+  } else {
+    alert("Por favor insira usuario e senha!");
+  }
 }
 
 function connect() {
