@@ -1,12 +1,12 @@
 import socket
 import threading
-import time
 import mysql.connector
 
 # Inicia servidor
 while True:
     try:
-        HOST = input("Host: ")
+        HOST = socket.gethostbyname(socket.gethostname())
+        print(HOST)
         PORT = int(input("Port: "))
         server = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
         server.bind((HOST,PORT))
@@ -52,34 +52,63 @@ def ClientMessages(client, address):
     global clients
     while True:
         try:
+
             # Mensagem recebida do cliente
             msg = (client.recv(2048).decode('UTF-8'))
+
+
+
+            ########### LOGIN VALIDATION ############
             
             # Se a mensagem vier com "#!usuario!##!senha!# " no inicio será considerada como dados de login para validação
             if msg[:21] == "#!usuario!##!senha!# ":
                 msg = msg[21:]
                 username = msg.split("  :  ")[0]
                 password = msg.split("  :  ")[1]
-                response = UserValidation(username, password, client)
-                if response == 0:
-                    client.send('CONFIRMED USER'.encode('UTF-8'))
-                    usernames.append(user)
-                    clients.append(client)
-                    print(f"{str(user)} completed connection via login!!")
-                elif response == 1:
+                response = UserValidation(username, password)
+                if response == 1:
                     client.send('USER IS ALREADY CONNECTED'.encode('UTF-8'))
                 elif response == 2:
                     client.send('USER DOES NOT EXIST'.encode('UTF-8'))
-            
+                else:
+                    client.send(f'{response}'.encode('UTF-8'))
+                    usernames.append(response)
+                    clients.append(client)
+                    print(f"{str(response)} completed connection via login!!")
+
+
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+
+
+            ########### CHAT ############
+
             elif msg[:9] == "#!chat!# ":
+                msg = msg[9:]
+                name = msg.split("  :  ")[0]
+                sendTo = msg.split("  :  ")[1]
+                msg = msg.split("  :  ")[2]
+                SendMessage(msg, clients[usernames.index(sendTo)], name)
+
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
 
+
+            ########### CLOSE CLIENT ############
+
+            elif msg[:9] == "#!quit!# ":
+                username = msg[9:]
+                print(f'{usernames[clients.index(client)]} has left the chat...')
+                usernames.remove(usernames[clients.index(client)])
+                clients.remove(clients[clients.index(client)])
+                client.close()
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
         except:
             pass
 
 
 # Valida o úsuario e senha
-def UserValidation(user, password, client):
+def UserValidation(user, password):
     global con
     global usernames
     if con.is_connected():
@@ -88,12 +117,16 @@ def UserValidation(user, password, client):
         result = cursor.fetchall()
         if len(result) != 0:
             if not user in usernames:
-                return 0
+                return str(result[0]).replace('(','').replace(')','').split(',')[4].replace(' \'','').replace('\'', '')
             else:
                 return 1
         else:
             return 2
 
+# Manda mensagem para o contato
+def SendMessage(message, client, sendFrom):
+    message = sendFrom + "  :  " + message
+    client.send(str(message).encode('UTF-8'))
 
 
 ########### INICIO (AGUARDA A CONEXÃO COM O CLIENTE) ##############

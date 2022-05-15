@@ -2,6 +2,14 @@ import eel
 import socket
 import threading
 
+stopWhile = True
+
+porta = int(input('PORT: '))
+
+contacts = list()
+
+name = list()
+
 # Inicia o Client Socket
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
@@ -33,23 +41,19 @@ def openPage(origin, destiny):
       opening = False
 
 
-# FAZ AUTENTICAÇÃO DO USUARIO
-@eel.expose
-def authenticate(usuario, senha):
-  global client
-  client.send(str("#!usuario!##!senha!# " + str(usuario) + "  :  " + str(senha)).encode('UTF-8'))
 
-  while True:
-    try:
-      message = client.recv(2048).decode('UTF-8')
-      break
-    except:
-      pass
-  return message
+
+####################################################
+########## FUNÇÕES EEL CHAMADAS PELO JS ############
+####################################################
+
+
+
+#################### LOGIN #########################
 
 # INICIA CONEXÃO COM O SERVIDOR
 @eel.expose
-def startConnection(IpPort):
+def StartConnection(IpPort):
   global client
   try:
     ServerIP = str(IpPort).split(":")[0]
@@ -60,24 +64,77 @@ def startConnection(IpPort):
     return False
 
 
+# FAZ AUTENTICAÇÃO DO USUARIO
 @eel.expose
-def sendMessage(message):
-  #global client
-  #client.send(message.encode('UTF-8'))
-  print("Send Message")
+def Authenticate(usuario, senha):
+  global client
+  global name
+  client.send(str("#!usuario!##!senha!# " + str(usuario) + "  :  " + str(senha)).encode('UTF-8'))
+
+  while True:
+    try:
+      message = client.recv(2048).decode('UTF-8')
+      break
+    except:
+      pass
+  if message != 'USER IS ALREADY CONNECTED' and message != 'USER DOES NOT EXIST':
+    thread1 = threading.Thread(target=ReceiveMessage,args=())
+    thread1.start()
+  name = [message, message[:1]]
+  return message
+
+@eel.expose
+def Name():
+  global name
+  return name
+
+##-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-##
+
+
+
+
+###################### CHAT ########################
 
 
 @eel.expose
+def SendMessage(message, sendTo):
+  global client
+  global name
+  message = str("#!chat!# " + str(name[0]) + "  :  " + str(sendTo) + "  :  " + str(message))
+  client.send(message.encode('UTF-8'))
+
 def ReceiveMessage():
-  print("Recive Message")
+  global stopWhile
+  while stopWhile:
+    try:
+      msg = (client.recv(2048).decode('UTF-8'))
+      name = msg.split("  :  ")[0]
+      msg = msg.split("  :  ")[1]
+      data = [msg, name]
+      eel.receiveMessage(data)
+    except:
+      pass
 
 
-@eel.expose
-def RegisterNewUser(name, email, password, userType):
-  print("Register New User")
+
+##-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-##
+
 
 # Inicializa eel
 eel.init("src")
 
-# Começa o programa pela tela de login
-eel.start(base_directory + 'login.html')
+try:
+  # Começa o programa pela tela de login
+  eel.start(base_directory + 'login.html', mode='chrome', host='localhost', port=porta)
+except (SystemExit, MemoryError, KeyboardInterrupt):
+  pass
+
+try:
+  msg = "#!quit!# " + str(name[0])
+  client.send(msg.encode('UTF-8'))
+  client.close()
+  stopWhile = False
+  print ('Closed!!')
+except:
+  stopWhile = False
+  print ('Closed!!')
