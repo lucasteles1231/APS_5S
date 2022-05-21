@@ -1,20 +1,40 @@
-eel.expose(closeLoginScreen);
-function closeLoginScreen() {
-  window.close();
-}
+/* function OpenChat() {
+  document.getElementById("main_login").style.display = "none";
+  document.getElementById("main_chat").style.display = "block";
+  document.getElementById("main_dashboard").style.display = "none";
+  document.getElementById("main_cadastro").style.display = "none";
+
+  document.getElementById("sidebar_menu_item_chat").style.color = "#8d96b0";
+  document.getElementById("sidebar_menu_item_chat").style.backgroundColor = "#f3e7ff";
+  document.getElementById("sidebar_menu_item_chat").addEventListener("mouseover", function() {document.getElementById("sidebar_menu_item_chat").style.backgroundColor = "#f3e7ff";});
+  document.getElementById("sidebar_menu_item_chat").addEventListener("mouseout", function() {document.getElementById("sidebar_menu_item_chat").style.backgroundColor = "#f3e7ff";});
+  
+  document.getElementById("sidebar_menu_item_dashboard").style.color = "#00000080";
+  document.getElementById("sidebar_menu_item_dashboard").style.backgroundColor = "transparent";
+  document.getElementById("sidebar_menu_item_dashboard").addEventListener("mouseover", function() {document.getElementById("sidebar_menu_item_dashboard").style.backgroundColor = "#f3e7ff30";});
+  document.getElementById("sidebar_menu_item_dashboard").addEventListener("mouseout", function() {document.getElementById("sidebar_menu_item_dashboard").style.backgroundColor = "transparent";});
+
+  document.getElementById("sidebar_menu_item_cadastro").style.color = "#00000080";
+  document.getElementById("sidebar_menu_item_cadastro").style.backgroundColor = "transparent";
+  document.getElementById("sidebar_menu_item_cadastro").addEventListener("mouseover", function() {document.getElementById("sidebar_menu_item_cadastro").style.backgroundColor = "#f3e7ff30";});
+  document.getElementById("sidebar_menu_item_cadastro").addEventListener("mouseout", function() {document.getElementById("sidebar_menu_item_cadastro").style.backgroundColor = "transparent";});
+} */
 
 function authenticate() {
-  const user = document.getElementById("login-user").value;
-  const password = document.getElementById("login-password").value;
+  const user = document.getElementById("login_user").value;
+  const password = document.getElementById("login_password").value;
   if(user != "" && password != "") {
-      eel.authenticate(user, password)()
+      eel.Authenticate(user, password)()
       .then((result) => {
-        if (result == 'CONFIRMED USER') {
-          eel.openPage("login.html", "chat.html");
-        } else if (result == 'USER IS ALREADY CONNECTED') {
+        if (result == 'USER IS ALREADY CONNECTED') {
           alert("Usuário já conectado!");
         } else if (result == 'USER DOES NOT EXIST') {
           alert("Usuário não existe!");
+        } else {
+          showMenu();
+          perfil();
+          timer();
+          changeScreen('chat');
         }
       });
   } else {
@@ -22,14 +42,17 @@ function authenticate() {
   }
 }
 
-function connect() {
-  const ipPort = document.getElementById("ip-connection").value;
-  eel.startConnection(ipPort)()
+function startConnection() {
+  var Ip = document.getElementById("ip_connection").value;
+  var Port = document.getElementById("port_connection").value;
+  const ipPort = Ip + ":" + Port;
+  eel.StartConnection(ipPort)()
   .then((result) => {
     if (result) {
-      document.getElementById('login-user').disabled = false;
-      document.getElementById('login-password').disabled = false;
-      alert("Conexão concluída!!");
+      document.getElementById('form_login').style.display = "block";
+      document.getElementById('form_ip_con').style.display = "none";
+      document.getElementById('login_user').disabled = false;
+      document.getElementById('login_password').disabled = false;
     } else {
       alert("Conexão deu errado!!");
     }

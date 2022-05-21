@@ -1,18 +1,72 @@
 eel.expose(closeChatScreen);
+
+var intervalID;
+
 function closeChatScreen() {
+  eel.stopWhile()();
+  stopInterval;
   window.close();
 }
 
-// insere nome do usuario na tela de chat
-function perfil() {
+function irParaAnalytics() {
+  eel.stopWhile()();
+  stopInterval;
+  eel.openPage("chat.html", "dashboard.html");
+}
+
+function irParaUsuarios() {
+  eel.stopWhile()();
+  stopInterval;
+  eel.openPage("chat.html", "cadastro.html");
+}
+
+function contatos(){
+  console.log('entrou');
   eel
-  .Name()()
+  .Contacts()()
   .then((result) => {
-    document.getElementById("name").textContent = result[0];
-    document.getElementById("ico").textContent = result[1];
+    console.log(result);
+    if(result.length != 0){
+      var divDel = document.getElementById("contacts");
+        
+      while(divDel.firstChild) {
+        divDel.removeChild(divDel.firstChild);
+      };
+
+      console.log('entrou no if');
+      function addContactsInHTML(item, indice){
+        console.log('entrou na função');
+        var div = document.createElement("div");
+        div.classList.add("contact");
+        div.setAttribute("id", "contact " + indice.toString());
+        var text = document.createTextNode(item);
+        div.appendChild(text);
+        var element = document.getElementById("contacts");
+        element.appendChild(div);
+        var div = document.getElementsByClassName("contact");
+        document.getElementById("contact " + indice.toString()).onclick = function() {
+          document.getElementById("contacts").style.display = "none";
+          document.getElementById("chat__mensagens").style.display = "grid";
+          document.getElementById("contact_name_chat").innerHTML = item;
+          stopInterval();
+        };
+      };
+      result.forEach(addContactsInHTML);
+    }
   });
 }
-perfil();
+
+function stopInterval(){
+  clearInterval(intervalID);
+  eel.initThread()();
+}
+
+function timer() {
+  intervalID = setInterval(() => {
+    contatos()
+  }, 1000);
+}
+
 
 // envia mensagem para o servidor
 async function sendMessage() {
@@ -25,8 +79,8 @@ async function sendMessage() {
   var element = document.getElementById("msg_div_main");
   element.appendChild(div);
   element.scrollTop = element.scrollHeight;
-  var nome = "lucas";
-
+  var nome = document.getElementById("contact_name_chat").innerHTML;
+  console.log(nome);
   eel.SendMessage(message, nome)();
 }
 
@@ -42,18 +96,6 @@ function receiveMessage(result) {
     var element = document.getElementById("msg_div_main");
     element.appendChild(div);
     element.scrollTop = element.scrollHeight;
-    initReceiveMessage();
-  } else {
-    initReceiveMessage();
   }
 }
 eel.expose(receiveMessage);
-
-
-function irParaAnalytics() {
-  eel.openPage("chat.html", "dashboard.html");
-}
-
-function irParaUsuarios() {
-  eel.openPage("chat.html", "cadastro.html");
-}

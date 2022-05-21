@@ -83,6 +83,12 @@ def ClientMessages(client, address):
 
             ########### CHAT ############
 
+            elif msg[:15] == "#!getContacts!#":
+                msg = ""
+                for names in usernames:
+                    msg = msg + "  :  " + names
+                client.send(msg.encode("UTF-8"))
+
             elif msg[:9] == "#!chat!# ":
                 msg = msg[9:]
                 name = msg.split("  :  ")[0]
@@ -132,94 +138,3 @@ def SendMessage(message, client, sendFrom):
 ########### INICIO (AGUARDA A CONEXÃO COM O CLIENTE) ##############
 initialConnection()
 #################################
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##############################
-
-
-
-"""
-def globalMessage(message):
-    for client in clients:
-        if usernames[clients.index(client)] != message[:len(usernames[clients.index(client)])].decode('UTF-8'):
-            client.send(message)
-"""
-
-
-######################
-
-
-""" 
-def getDB(message):
-    for client in clients:
-        if usernames[clients.index(client)] == message[:len(usernames[clients.index(client)])].decode('UTF-8'):
-            message = message.decode('UTF-8')[len(usernames[clients.index(client)])+2:].encode('UTF-8')
-            client.send(message)
-"""
-
-
-######################
-
-
-
-""" 
-def handleMessages(client):
-    while True:
-        try:
-            receiveMessageFromClient = client.recv(2048).decode('UTF-8')
-            if receiveMessageFromClient[:21] == "#!usuario!##!senha!# ":
-                msg = receiveMessageFromClient[21:]
-                user = msg.split("  :  ")[0]
-                password = msg.split("  :  ")[1]
-                UserValidation(user, password, client)
-            #if receiveMessageFromClient[:5] == "getid":
-            #    try:
-            #        dadosDB(receiveMessageFromClient[6:], client)
-            #    except:
-            #        print(f"não achou o ID solicitado por {usernames[clients.index(client)]}")
-            else:
-                globalMessage(f'{usernames[clients.index(client)]}: {receiveMessageFromClient}'.encode('UTF-8'))
-        except:
-            clientLeaved = clients.index(client)
-            client.close()
-            clients.remove(clients[clientLeaved])
-            clientLeavedUsername = usernames[clientLeaved]
-            print(f'{clientLeavedUsername} has left the chat...')
-            globalMessage(f'{clientLeavedUsername} has left us...'.encode('UTF-8'))
-            usernames.remove(clientLeavedUsername)
-"""
-
-###########################
-
-""" 
-def dadosDB(id, client):
-    con = mysql.connector.connect(host='localhost', database='MYSQL_PYTHON',user='root',password='root')
-    if con.is_connected():
-        cursor = con.cursor()
-        cursor.execute(f"SELECT * FROM Tabela_Dados WHERE ID = {id};")
-        result = cursor.fetchall()
-        if len(result) == 1:
-            getDB(f'{usernames[clients.index(client)]}: || {result[0][0]} || {result[0][1]} || {result[0][2]} || {result[0][3]} || {result[0][4]} || {result[0][5]} ||'.encode('UTF-8'))
-        else:
-            getDB(f'{usernames[clients.index(client)]}: ID inválido'.encode('UTF-8'))
-"""

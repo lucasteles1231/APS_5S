@@ -1,6 +1,8 @@
+from traceback import print_tb
 import eel
 import socket
 import threading
+import pyautogui
 
 stopWhile = True
 
@@ -13,32 +15,10 @@ name = list()
 # Inicia o Client Socket
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-# Caminho base
-base_directory = "web/pages/"
-delay = 0.1
-
-# Caminho das telas 
+# EXECUTA COMANDOS DE INICIALIZAÇÃO
 @eel.expose
-def openPage(origin, destiny):
-  opening = True
-
-  eel.show(base_directory + destiny)
-
-  while opening:
-    eel.sleep(0.1)
-
-    if len(eel._websockets) > 1:
-
-      close_function = {
-        "login.html": eel.closeLoginScreen,
-        "chat.html": eel.closeChatScreen,
-        "dashboard.html": eel.closeDashboardScreen,
-        "cadastro.html": eel.closeCadastroScreen
-      }[origin]
-
-      close_function()()
-
-      opening = False
+def onStart():
+  pyautogui.hotkey('winleft', 'up')
 
 
 
@@ -76,10 +56,8 @@ def Authenticate(usuario, senha):
       message = client.recv(2048).decode('UTF-8')
       break
     except:
-      pass
-  if message != 'USER IS ALREADY CONNECTED' and message != 'USER DOES NOT EXIST':
-    thread1 = threading.Thread(target=ReceiveMessage,args=())
-    thread1.start()
+      pass 
+
   name = [message, message[:1]]
   return message
 
@@ -97,17 +75,46 @@ def Name():
 
 
 @eel.expose
+def Contacts():
+  global client
+  global name
+  message = "#!getContacts!#"
+  client.send(message.encode('UTF-8'))
+  while True:
+    try:
+      message = client.recv(2048).decode('UTF-8')
+      break
+    except:
+      pass
+  message = message.split("  :  ")
+  message.remove("")
+  message.remove(name[0])
+  return message
+
+@eel.expose
 def SendMessage(message, sendTo):
   global client
   global name
   message = str("#!chat!# " + str(name[0]) + "  :  " + str(sendTo) + "  :  " + str(message))
   client.send(message.encode('UTF-8'))
+  
+@eel.expose
+def initThread():
+  thread1 = threading.Thread(target=ReceiveMessage,args=())
+  thread1.start()
 
+@eel.expose
+def stopWhile():
+  global stopWhile
+  stopWhile = False
+
+@eel.expose
 def ReceiveMessage():
   global stopWhile
   while stopWhile:
     try:
       msg = (client.recv(2048).decode('UTF-8'))
+      print('recebeu msg')
       name = msg.split("  :  ")[0]
       msg = msg.split("  :  ")[1]
       data = [msg, name]
@@ -120,12 +127,14 @@ def ReceiveMessage():
 ##-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-##
 
 
-# Inicializa eel
+
+# Inicializa eel com o diretório base
 eel.init("src")
 
 try:
-  # Começa o programa pela tela de login
-  eel.start(base_directory + 'login.html', mode='chrome', host='localhost', port=porta)
+  # Inicia a aplicaçao utilizando um HTML como base para renderizar
+  # as demais telas através da combinação das bibliotecas EEL + Jinja2
+  eel.start('web/pages/controller.html', jinja_templates="web/pages", host="localhost", port=porta)
 except (SystemExit, MemoryError, KeyboardInterrupt):
   pass
 

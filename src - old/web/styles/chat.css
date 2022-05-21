@@ -1,0 +1,48 @@
+.main__container {
+  width: 100%;
+  height: 100%;
+  background-color: #d2dbea;
+}
+
+.chat__mensagens {
+  width: 100%;
+  height: calc(100% - 100px);
+  display: grid;
+  grid-template-rows: auto 85px;
+}
+
+.mensagens__historico {
+  width: 100%;
+  height: 100%;
+}
+
+.mensagens__chat {
+  width: calc(100% - 60px);
+  height: 100%;
+  background-color: #e5eaf0;
+  display: grid;
+  grid-template-columns: 50px auto 50px;
+  padding: 9px 30px;
+  gap: 16px;
+}
+
+.chat__input {
+  width: 100%;
+  height: 40px;
+  font-size: 24px;
+  outline: none;
+  background-color: transparent;
+  border: none;
+  padding: 3px 10px 0px;
+}
+
+.chat__icon,
+.enviar__btn {
+  padding: 4px;
+  height: 40px;
+  cursor: pointer;
+}
+
+form * {
+  color: #8999b5;
+}

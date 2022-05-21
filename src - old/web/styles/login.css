@@ -1,18 +1,14 @@
-.login {
+* {
   color: #8999b5;
-  }
-  
-  #main_login {
-  display: block;
-  }
-  
-  #main_login {
+}
+
+.login__container {
   width: 100vw;
   height: 100vh;
   background-color: #aabddd;
-  }
-  
-  #div_login {
+}
+
+.login {
   width: 40%;
   min-width: 350px;
   height: 100%;
@@ -20,39 +16,30 @@
   display: block;
   margin: 0px 0px 0px auto;
   padding: 60px 0px;
-  }
-  
-  #header_login {
+}
+
+.login__header {
   border-bottom: 1px solid #00000030;
   padding-bottom: 48px;
   text-align: center;
   margin-bottom: 48px;
-  }
-  
-  #h1_header_login {
+}
+
+.login__header h1 {
   padding-bottom: 8px;
-  }
-  
-  #form_ip_con {
-  margin-top: 50px;
+}
+
+.login__form {
   width: 60%;
   display: block;
   margin: auto;
-  }
-  
-  #form_login {
-  margin-top: 50px;
-  width: 60%;
-  display: none;
-  margin: auto;
-  }
-  
-  #btn_ip_con {
+}
+
+.login__form button {
+  margin: 20px auto 0px;
+}
+
+#con__form__btn {
   margin: 0px auto 20px;
-  color: #fff;
-  }
-  
-  #btn_login {
-  color: #fff;
-  margin: 0px auto 0px;
-  }
+  color: #fff !important;
+}

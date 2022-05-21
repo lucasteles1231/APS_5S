@@ -1,0 +1,28 @@
+<!-- Arquivo base para a renderizar dos componentes das telas da aplicação -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Título da aplicação que será exibido na barra superior -->
+    <title>APS</title>
+
+    <!-- Tags de aprimoramento de compatibilidade -->
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Referencia o arquivo de estilos globais -->
+    <link rel="stylesheet" href="../styles/styles.css" />
+
+    <!-- Import da biblioteca necessária para fazer o vínculo entre o Python e o JavaScript -->
+    <script type="text/javascript" src="/eel.js"></script>
+  </head>
+  <body>
+
+    <!-- Tag principal para a renderização de outros arquivos .html (Biblioteca utilizada: Jinja2) -->
+    {% block content %}
+    {% endblock %}
+
+    <!-- Referencia o arquivo de scripts globais -->
+    <script type="text/javascript" src="../scripts/main.js"></script>
+  </body>
+</html>

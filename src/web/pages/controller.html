@@ -1,0 +1,56 @@
+<!-- Tag utilizada para herdar os componentes do arquivo base -->
+{% extends "base.html" %}
+
+<!-- Renderização dos componentes de controle -->
+{% block content %}
+
+<div class="application__controller" id="controller-menu">
+  <!-- Menu lateral responsável por conter os botões de navegações para outras telas -->
+  <div class="controller__menu" id="menu">
+    <!-- Inclusão centralizada da logo da aplicação -->
+    <div class="sidebar__logo">
+      <img class="logo__image" src="../../assets/logo.png" />
+    </div>
+
+    <!-- Itens do menu lateral -->
+    <div class="sidebar__menu">
+      <button
+        id="dashboard-btn"
+        class="menu__item"
+        type="button"
+        onclick="changeScreen('dashboard')"
+      >
+        Dashboard
+      </button>
+      <button
+        id="chat-btn"
+        class="menu__item"
+        type="button"
+        onclick="changeScreen('chat')"
+      >
+        Chat
+      </button>
+      <button id="usuarios-btn" class="menu__item" type="button">
+        Usuários
+      </button>
+    </div>
+  </div>
+  <!-- Container principal para renderização das telas -->
+  <div class="controller__principal">
+    <header class="chat__header">
+      <h1>CHAT</h1>
+      <div class="header__perfil">
+        <p class="perfil__icone" id="perfil__icone"></p>
+        <p class="perfil__nome" id="perfil__nome"></p>
+      </div>
+    </header>
+    <!-- Utilização das div's para controle de visibilidade em conjunto com a tag -->
+    <!-- de "Include" que referencia outro arquivo .html a ser renderizado -->
+    <div id="dashboard" style="display: none">{% include "dashboard.html" %}</div>
+    <div id="chat">{% include "chat.html" %}</div>
+  </div>
+</div>
+
+<div id="login" style="display: block">{% include "login.html" %}</div>
+
+{% endblock %}

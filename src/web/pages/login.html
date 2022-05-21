@@ -1,76 +1,33 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <title>Atividade Prática Supervisionada - Login</title>
-    <script language="JavaScript">
-      window.dispatchEvent(new KeyboardEvent('keydown', {
-        which: 38,
-        keyCode: 38,
-        shiftKey: false,
-        altKey: false,
-        ctrlKey: false,
-        metaKey: true,
-        key: 'ArrowUp'
-      }));
+{% block content %}
 
-      console.log('entrou')
+<!-- Referencia o arquivo de estilização da tela de login -->
+<link rel="stylesheet" href="../styles/login.css" />
 
-    </script>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../styles/login.css" />
-    <link rel="stylesheet" href="../styles/global.css" />
-    <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico" />
-  </head>
-  <body>
-    <main id="login" class="login__container">
-      <div class="login">
-        <header class="login__header">
-          <h1>Login</h1>
-          <p>Faça login para continuar</p>
-        </header>
-        <form class="login__form">
-          <label for="ip-connection">Por favor, insira o ip e a porta</label>
-          <input
-            id="ip-connection"
-            type="text"
-            placeholder="0.0.0.0:0"
-          />
-          <button
-            type="button"
-            id="con__form__btn"
-            onclick="connect()"
-          >
-            CONNECT
-          </button>
+<main id="main_login" class="login">
+  <div id="div_login" class="login">
+    <header id="header_login" class="login">
+      <h1 id="h1_header_login" class="login">Login</h1>
+      <p id="p_header_login" class="login">Faça login para continuar</p>
+    </header>
+    <form id="form_ip_con" class="login">
+      <label for="ip_connection" class="login">IP</label>
+      <input id="ip_connection" class="login" type="text" placeholder="0.0.0.0"/>
+      <label for="port_connection" class="login">PORT</label>
+      <input id="port_connection" class="login" type="text" placeholder="0"/>
+      <button id="btn_ip_con" class="login" type="button" onclick="startConnection()">CONECTAR</button>
+    </form>
+    <form id="form_login" class="login">
+      <label for="login_user" class="login">Por favor, insira o e-mail</label>
+      <input id="login_user" class="login" type="text" placeholder="email@dominio.com.br" disabled=true/>
+      <label for="login_password" class="login">Digite a senha</label>
+      <input id="login_password" class="login" type="password" placeholder="*********" disabled=true/>
+      <button id="btn_login" class="login" type="button" onclick="authenticate()" desabled="true">LOGIN</button>
+    </form>
+  </div>
+</main>
 
-          <label for="login-user">Por favor, insira o e-mail</label>
-          <input
-            id="login-user"
-            type="text"
-            placeholder="email@dominio.com.br"
-            disabled=true
-          />
-          <label for="login-password">Digite a senha</label>
-          <input 
-            id="login-password" 
-            type="password" 
-            placeholder="*********" 
-            disabled=true
-          />
-          <button
-            type="button"
-            class="login__form__btn"
-            onclick="authenticate()"
-            desabled="true"
-          >
-            LOGIN
-          </button>
-        </form>
-      </div>
-    </main>
-    <script type="text/javascript" src="/eel.js"></script>
-    <script type="text/javascript" src="../scripts/login.js"></script>
-  </body>
-</html>
+<!-- Referencia o arquivo de scripts da tela de login -->
+<!-- Utilizado para fazer a conexão com o servidor e enviar o formulário de acesso -->
+<script type="text/javascript" src="../scripts/login.js"></script>
+
+{% endblock %}

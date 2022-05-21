@@ -11,6 +11,7 @@
   background-color: #fff;
   display: grid;
   grid-template-rows: 120px auto;
+  border-right: 1px solid #6d6b6c30;
 }
 
 .sidebar__logo {
@@ -24,16 +25,13 @@
   height: 100%;
 }
 
-/* .sidebar__menu {
-} */
-
-.chat__header {
+.dashboard__header {
   width: 100%;
   height: 100px;
-  background-color: white;
   display: flex;
   padding: 10px 30px;
   align-items: center;
+  border-bottom: 1px solid #6d6b6c50;
 }
 
 .header__perfil {
@@ -65,7 +63,7 @@ h1 {
 }
 
 .chat__container {
-  width: calc(100vw - 250px);
+  width: 100%;
   height: 100%;
   background-color: #d2dbea;
 }
@@ -73,49 +71,18 @@ h1 {
 .chat__mensagens {
   width: 100%;
   height: calc(100% - 100px);
-  display: none;
-  /* display: grid; */
+  display: grid;
   grid-template-rows: auto 85px;
 }
 
 .mensagens__historico {
+  width: 100%;
   height: 100%;
-  padding: 10px 30px 10px 30px;
-  overflow: auto;
-}
-
-.balloon_left{
-  width: 75%;
-  height: 25%;
-  margin-bottom: 10px;
-  background-color: #8999b5;
-  border-radius: 20px;
-  padding: 7px;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  color: white;
-}
-
-.balloon_right{
-  width: 75%;
-  height: 25%;
-  margin-bottom: 10px;
-  background-color: #8999b5;
-  border-radius: 20px;
-  padding: 7px;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  justify-content: right;
-  margin-left: 15%;
-  color: white;
 }
 
 .mensagens__chat {
-  width: calc(100% - 50px);
-  height: 50px;
+  width: calc(100% - 60px);
+  height: 100%;
   background-color: #e5eaf0;
   display: grid;
   grid-template-columns: 50px auto 50px;
@@ -138,31 +105,4 @@ h1 {
   padding: 4px;
   height: 40px;
   cursor: pointer;
-}
-
-form * {
-  color: #8999b5;
-}
-
-#contato_name {
-  height: 30px;
-  display: block;
-  padding: 15px 10px 10px 10px;
-  background: #e5eaf0;
-  text-align: center;
-}
-
-.contact {
-  height: 30px;
-  display: block;
-  padding: 15px 10px 5px 10px;
-  background: #e5eaf0;
-  border-bottom: 1px solid lightblue;
-  margin-top: 5px;
-}
-
-#chat_main {
-  display: block;
-  width: 100%;
-  height: 100%;
 }
