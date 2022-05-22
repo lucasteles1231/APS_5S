@@ -1,4 +1,3 @@
-from traceback import print_tb
 import eel
 import socket
 import threading
@@ -30,6 +29,19 @@ def onStart():
 
 
 #################### LOGIN #########################
+
+lastScreen = ""
+
+# RELOAD
+@eel.expose
+def SaveLastScreen(screenName):
+  global lastScreen
+  lastScreen = screenName
+
+@eel.expose
+def HowLastScreen():
+  global lastScreen
+  return lastScreen
 
 # INICIA CONEXÃO COM O SERVIDOR
 @eel.expose
@@ -100,8 +112,9 @@ def SendMessage(message, sendTo):
   
 @eel.expose
 def initThread():
-  thread1 = threading.Thread(target=ReceiveMessage,args=())
-  thread1.start()
+  global name
+  globals()[name[0]] = threading.Thread(target=ReceiveMessage,args=())
+  globals()[name[0]].start()
 
 @eel.expose
 def stopWhile():
@@ -111,6 +124,7 @@ def stopWhile():
 @eel.expose
 def ReceiveMessage():
   global stopWhile
+  num = 0
   while stopWhile:
     try:
       msg = (client.recv(2048).decode('UTF-8'))
@@ -118,7 +132,8 @@ def ReceiveMessage():
       name = msg.split("  :  ")[0]
       msg = msg.split("  :  ")[1]
       data = [msg, name]
-      eel.receiveMessage(data)
+      eel.receiveMessage(data, num)
+      num += 1
     except:
       pass
 

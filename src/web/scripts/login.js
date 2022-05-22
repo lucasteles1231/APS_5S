@@ -35,6 +35,7 @@ function authenticate() {
           perfil();
           timer();
           changeScreen('chat');
+          eel.SaveLastScreen('chat')();
         }
       });
   } else {

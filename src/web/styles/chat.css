@@ -79,14 +79,17 @@ h1 {
 }
 
 .mensagens__historico {
-  height: 100%;
+  height: 77%;
   padding: 10px 30px 10px 30px;
   overflow: auto;
+  display: flex;
+  align-items: end;
+  width: 95.32%;
 }
 
 .balloon_left{
   width: 75%;
-  height: 25%;
+  height: 15%;
   margin-bottom: 10px;
   background-color: #8999b5;
   border-radius: 20px;
@@ -100,7 +103,7 @@ h1 {
 
 .balloon_right{
   width: 75%;
-  height: 25%;
+  height: 15%;
   margin-bottom: 10px;
   background-color: #8999b5;
   border-radius: 20px;
@@ -109,7 +112,7 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: right;
-  margin-left: 15%;
+  margin-left: 20%;
   color: white;
 }
 
@@ -117,15 +120,15 @@ h1 {
   width: calc(100% - 50px);
   height: 50px;
   background-color: #e5eaf0;
-  display: grid;
+  display: flex;
   grid-template-columns: 50px auto 50px;
   padding: 9px 30px;
   gap: 16px;
 }
 
 .chat__input {
-  width: 100%;
-  height: 40px;
+  width: 70vw;
+  height: 25px;
   font-size: 24px;
   outline: none;
   background-color: transparent;
@@ -145,6 +148,7 @@ form * {
 }
 
 #contato_name {
+  width: 100%;
   height: 30px;
   display: block;
   padding: 15px 10px 10px 10px;

@@ -1,16 +1,17 @@
 // Função utilizada para alterar a visualização das páginas
 // Passa-se o id da div como parâmetro para que haja a comparação com a
 // Lista de telas registradas, podendo assim definir qual tela será exibida ou não.
+
 function changeScreen(screenName) {
   const screens = ["login", "dashboard", "chat"];
-
+  
   for (let i = 0; i < screens.length; i++) {
     // Obtém o componente div a partir do id.
     var screen = document.getElementById(screens[i]);
-
+    
     // Valida se o id informado na listagem de telas referencia um componente existente.
     if (screen === undefined || screen === null) continue;
-
+    
     // Caso o id seja equivalente ao informado na chamada da função, a div será exibida
     // Senão, é aplicado o estilo "display: none" para que a visualização seja ocultada.
     if (screens[i] === screenName) {
@@ -25,6 +26,7 @@ function changeScreen(screenName) {
   }
 }
 
+
 // Função responsável por controlar a exibição do menu lateral
 // e seus itens disponíveis no menu a partir do tipo de usuário.
 function showMenu() {
@@ -32,6 +34,8 @@ function showMenu() {
   document.getElementById("controller-menu").style.display = "grid";
   
 }
+
+
 
 // insere nome do usuario na tela de chat
 function perfil() {
@@ -52,3 +56,13 @@ function onProgramStart() {
 }
 
 onProgramStart();
+
+eel.HowLastScreen()()
+.then((result) => {
+  if (result != '') {
+    showMenu();
+    perfil();
+    timer();
+    changeScreen(result);
+  }
+});

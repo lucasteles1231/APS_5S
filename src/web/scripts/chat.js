@@ -46,7 +46,7 @@ function contatos(){
         var div = document.getElementsByClassName("contact");
         document.getElementById("contact " + indice.toString()).onclick = function() {
           document.getElementById("contacts").style.display = "none";
-          document.getElementById("chat__mensagens").style.display = "grid";
+          document.getElementById("chat__mensagens").style.display = "block";
           document.getElementById("contact_name_chat").innerHTML = item;
           stopInterval();
         };
@@ -84,9 +84,17 @@ async function sendMessage() {
   eel.SendMessage(message, nome)();
 }
 
-function receiveMessage(result) {
+function receiveMessage(result, num) {
+  numMsg = document.getElementById("num").value;
+  numMsg = parseInt(numMsg);
   console.log('waiting message!');
-  if (result != false) {
+  console.log(num)
+  console.log(result)
+  console.log(numMsg)
+  console.log(numMsg <= num)
+  if(numMsg<=num){
+    num += 1;
+    document.getElementById("num").value = num.toString();
     var message = result[0];
     var name = result[1];
     var div = document.createElement("div");
