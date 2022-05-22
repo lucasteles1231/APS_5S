@@ -3,7 +3,7 @@
 // Lista de telas registradas, podendo assim definir qual tela será exibida ou não.
 
 function changeScreen(screenName) {
-  const screens = ["login", "dashboard", "chat"];
+  const screens = ["login", "dashboard", "chat", "cadastro"];
   
   for (let i = 0; i < screens.length; i++) {
     // Obtém o componente div a partir do id.

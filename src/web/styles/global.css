@@ -60,3 +60,7 @@ button {
   border: none;
   cursor: pointer;
 }
+
+.main__container {
+  padding: 32px;
+}

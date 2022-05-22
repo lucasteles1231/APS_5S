@@ -15,9 +15,6 @@ name = list()
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # EXECUTA COMANDOS DE INICIALIZAÇÃO
-@eel.expose
-def onStart():
-  pyautogui.hotkey('winleft', 'up')
 
 
 
@@ -26,6 +23,10 @@ def onStart():
 ########## FUNÇÕES EEL CHAMADAS PELO JS ############
 ####################################################
 
+# Tela Cheia
+@eel.expose
+def onStart():
+  pyautogui.hotkey('winleft', 'up')
 
 
 #################### LOGIN #########################
@@ -113,8 +114,8 @@ def SendMessage(message, sendTo):
 @eel.expose
 def initThread():
   global name
-  globals()[name[0]] = threading.Thread(target=ReceiveMessage,args=())
-  globals()[name[0]].start()
+  t1 = threading.Thread(target=ReceiveMessage,args=())
+  t1.start()
 
 @eel.expose
 def stopWhile():
@@ -138,6 +139,22 @@ def ReceiveMessage():
       pass
 
 
+
+##-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-##
+
+
+################### DESPEJOS ########################
+
+@eel.expose
+def RegisterEviction(company, typeEviction, qty, region, description):
+  print(company, typeEviction, qty, region, description)
+  return(True)
+
+
+@eel.expose
+def SearchByEvictions():
+  evictions = []
+  return evictions
 
 ##-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-##
 

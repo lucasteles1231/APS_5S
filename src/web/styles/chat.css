@@ -82,7 +82,7 @@ h1 {
   height: 77%;
   padding: 10px 30px 10px 30px;
   overflow: auto;
-  display: flex;
+  display: block;
   align-items: end;
   width: 95.32%;
 }

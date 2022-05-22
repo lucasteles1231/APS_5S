@@ -8,18 +8,6 @@ function closeChatScreen() {
   window.close();
 }
 
-function irParaAnalytics() {
-  eel.stopWhile()();
-  stopInterval;
-  eel.openPage("chat.html", "dashboard.html");
-}
-
-function irParaUsuarios() {
-  eel.stopWhile()();
-  stopInterval;
-  eel.openPage("chat.html", "cadastro.html");
-}
-
 function contatos(){
   console.log('entrou');
   eel
@@ -106,4 +94,5 @@ function receiveMessage(result, num) {
     element.scrollTop = element.scrollHeight;
   }
 }
+
 eel.expose(receiveMessage);
