@@ -40,7 +40,7 @@ def initialConnection():
     while True:
         try:
             client, address = server.accept()
-            user_thread = threading.Thread(target=ClientMessages,args=(client, address))
+            user_thread = threading.Thread(target=ClientMessages,args=(client, address), name="t2")
             user_thread.start()
             print(f"New Connetion: {str(address)}")
         except:
@@ -55,24 +55,42 @@ def ClientMessages(client, address):
 
             # Mensagem recebida do cliente
             msg = (client.recv(2048).decode('UTF-8'))
+            print(msg)
 
 
 
             ########### LOGIN VALIDATION ############
             
             # Se a mensagem vier com "#!usuario!##!senha!# " no inicio será considerada como dados de login para validação
-            if msg[:21] == "#!usuario!##!senha!# ":
-                msg = msg[21:]
+            if msg[:10] == "#!login!# ":
+                print(1)
+                msg = msg[10:]
+                print(2)
                 username = msg.split("  :  ")[0]
+                print(3)
                 password = msg.split("  :  ")[1]
+                print(4)
                 response = UserValidation(username, password)
+                print(5)
                 if response == 1:
-                    client.send('USER IS ALREADY CONNECTED'.encode('UTF-8'))
+                    msg = "#!login!# " + 'USER IS ALREADY CONNECTED'
+                    print(6)
+                    client.send(msg.encode('UTF-8'))
+                    print(7)
                 elif response == 2:
-                    client.send('USER DOES NOT EXIST'.encode('UTF-8'))
+                    msg = "#!login!# " + 'USER DOES NOT EXIST'
+                    print(8)
+                    client.send(msg.encode('UTF-8'))
+                    print(9)
                 else:
-                    client.send(f'{response}'.encode('UTF-8'))
+                    print(10)
+                    msg = "#!login!# " + response
+                    print(11)
+                    client.send(msg.encode('UTF-8'))
+                    SendMessage(f"#!chat!# {str(response)} joined the chat!!", client)
+                    print(11)
                     usernames.append(response)
+                    print(12)
                     clients.append(client)
                     print(f"{str(response)} completed connection via login!!")
 
@@ -83,22 +101,19 @@ def ClientMessages(client, address):
 
             ########### CHAT ############
 
-            elif msg[:15] == "#!getContacts!#":
-                msg = ""
-                for names in usernames:
-                    msg = msg + "  :  " + names
-                client.send(msg.encode("UTF-8"))
-
             elif msg[:9] == "#!chat!# ":
-                msg = msg[9:]
-                name = msg.split("  :  ")[0]
-                sendTo = msg.split("  :  ")[1]
-                msg = msg.split("  :  ")[2]
-                SendMessage(msg, clients[usernames.index(sendTo)], name)
+                SendMessage(msg, client)
 
             #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
+            ########### CADASTRO DE DESPEJO ############
 
+            elif msg[:15] == "#!cadDespejo!# ":
+                msg = msg[15:]
+                msg = str(msg).split("  :  ")
+
+                response = "#!cadDespejo!# " + str(CadDespejo(msg[0], msg[1], msg[2], msg[3], msg[4]))
+                client.send(response.encode("UTF-8"))
 
             ########### CLOSE CLIENT ############
 
@@ -122,7 +137,7 @@ def UserValidation(user, password):
         cursor.execute(f"SELECT * FROM USUARIOS WHERE USUARIO = '{user}' AND SENHA = '{password}';")
         result = cursor.fetchall()
         if len(result) != 0:
-            if not user in usernames:
+            if not str(result[0]).replace('(','').replace(')','').split(',')[4].replace(' \'','').replace('\'', '') in usernames:
                 return str(result[0]).replace('(','').replace(')','').split(',')[4].replace(' \'','').replace('\'', '')
             else:
                 return 1
@@ -130,10 +145,23 @@ def UserValidation(user, password):
             return 2
 
 # Manda mensagem para o contato
-def SendMessage(message, client, sendFrom):
-    message = sendFrom + "  :  " + message
-    client.send(str(message).encode('UTF-8'))
+def SendMessage(msg, client):
+    for i in clients:
+        if i != client:
+            i.send(msg.encode('UTF-8'))
 
+# Valida o úsuario e senha
+def CadDespejo(company, typeEviction, qty, region, description):
+    global con
+    global usernames
+    try:
+        if con.is_connected():
+            cursor = con.cursor()
+            cursor.execute(f'INSERT INTO USUARIOS(ID_USUARIO, TIPO_USUARIO, USUARIO, SENHA, NOME) VALUES (null, "Usuario", "client@gmail.com", "123456", "client");')
+            con.commit()
+            return "true"
+    except:
+        return "false"
 
 ########### INICIO (AGUARDA A CONEXÃO COM O CLIENTE) ##############
 initialConnection()

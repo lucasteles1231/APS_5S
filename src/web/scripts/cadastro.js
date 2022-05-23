@@ -7,20 +7,5 @@ async function cadastrar() {
 
   console.log(empresa, tipo, quantidade, regiao, descricao);
 
-  eel
-    .RegisterEviction(empresa, tipo, quantidade, regiao, descricao)()
-    .then((result) => {
-      if (result) {
-        alert("Novo despejo cadastrado com sucesso!");
-        document.getElementById("cadastro-empresa").value = "";
-        document.getElementById("cadastro-tipo").value = "";
-        document.getElementById("cadastro-quantidade").value = "";
-        document.getElementById("cadastro-regiao").value = "";
-        document.getElementById("cadastro-descricao").value = "";
-      } else {
-        alert(
-          "Despejo não cadastrado, verifique se preencheu corretamente os campos!"
-        );
-      }
-    });
+  eel.RegisterEviction(empresa, tipo, quantidade, regiao, descricao)();
 }
