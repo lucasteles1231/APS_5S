@@ -17,6 +17,7 @@ function changeScreen(screenName) {
     if (screens[i] === screenName) {
       console.log('block');
       screen.style.display = "block";
+      eel.SaveScreen(screenName);
       console.log(screen);
       console.log('block');
     } else {
@@ -36,12 +37,22 @@ function showMenu() {
 
 // Função executada ao iniciar a tela com o objetido de redimensionar
 // A janela para o tamanho do monitor utilizado.
-function onProgramStart() {
-  window.moveTo(0, 0);
-  window.resizeTo(screen.availWidth, screen.availHeight);
-  eel.onStart();
+eel
+.onStart()()
+.then((result) => {
+  if(result[0] != ""){
+    refresh(result);
+  }
+});
+
+function refresh(dados){
+  showMenu();
+  document.getElementById("perfil__nome").textContent = dados[1];
+  document.getElementById("perfil__icone").textContent = dados[1].split("")[0];
+  console.log(dados[0]);
+  changeScreen(dados[0]);
+  timer();
 }
-onProgramStart();
 
 function timer() {
   setInterval(() => {

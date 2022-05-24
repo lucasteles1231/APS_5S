@@ -18,6 +18,8 @@ rows = list()
 
 tamrows = 0
 
+screen = ""
+
 # EXECUTA COMANDOS DE INICIALIZAÇÃO
 
 
@@ -27,11 +29,20 @@ tamrows = 0
 ########## FUNÇÕES EEL CHAMADAS PELO JS ############
 ####################################################
 
-# Tela Cheia
+# INICIO
 @eel.expose
 def onStart():
-  pyautogui.hotkey('winleft', 'up')
+  global screen
+  if screen == "":
+    pyautogui.hotkey('winleft', 'up')
+  dados = [screen, name]
 
+  return dados
+
+@eel.expose
+def SaveScreen(Screen):
+  global screen
+  screen = Screen
 
 #################### LOGIN #########################
 
