@@ -14,6 +14,8 @@ name = ""
 # Inicia o Client Socket
 client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
+rows = list()
+
 # EXECUTA COMANDOS DE INICIALIZAÇÃO
 
 
@@ -69,22 +71,38 @@ def ReceiveMessage():
     try:
       msg = (client.recv(2048).decode('UTF-8'))
       print(msg)
+
+      #Login
       if msg[:10] == "#!login!# ":
         msg = msg[10:]
         name = msg
         msg = msg + "  :  " + msg[:1]
         print(msg)
-        eel.receiveMessage(msg, num, "login")
-      elif msg[:15] == "#!cadastro!# ":
-        msg = msg[15:]
-        eel.receiveMessage(msg, num, "cadastro")
+        eel.receiveMessage(msg, "login")
+
+      #Cadastro Despejo
+      elif msg[:13] == "#!cadastro!# ":
+        msg = msg[13:]
+        eel.receiveMessage(msg, "cadastro")
+
+      #Chat
       elif msg[:9] == "#!chat!# ":
         msg = msg[9:]
-        eel.receiveMessage(msg, num, "chat")
+        eel.receiveMessage(msg, "chat")
         num += 1
+
+      #Dashboard
       elif msg[:14] == "#!dashboard!# ":
         msg = msg[14:]
-        eel.receiveMessage(msg, num, "dashboard")
+        print(msg)
+        if msg == "fim  :  fim":
+          eel.receiveMessage(rows, "dashboard")
+          rows.clear()
+        elif msg == "vazio":
+          eel.receiveMessage(rows, "dashboard")
+          rows.clear()
+        else:
+          rows.append(msg)
     except:
       pass
 
@@ -101,23 +119,6 @@ def SendMessage(message, screen):
 ##-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-##
 
 
-################### DESPEJOS ########################
-
-""" @eel.expose
-def RegisterEviction(company, typeEviction, qty, region, description):
-  global client
-  print(company, typeEviction, qty, region, description)
-  msg = "#!cadDespejo!# " + str(company) + "  :  " + str(typeEviction)  + "  :  " + str(qty) +  + "  :  " + str(region)  + "  :  " + str(description)
-  client.send(msg.encode("UTF-8"))
-  return(True) """
-
-
-@eel.expose
-def SearchByEvictions():
-  evictions = []
-  return evictions
-
-##-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-#-##
 
 
 

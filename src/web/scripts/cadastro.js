@@ -7,5 +7,7 @@ async function cadastrar() {
 
   console.log(empresa, tipo, quantidade, regiao, descricao);
 
-  eel.RegisterEviction(empresa, tipo, quantidade, regiao, descricao)();
+  var msg = empresa + "  :  " + tipo + "  :  " + quantidade + "  :  " + regiao + "  :  " + descricao;
+
+  sendMessageMain(msg, "cadastro");
 }

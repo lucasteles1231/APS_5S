@@ -9,4 +9,4 @@ def UserValidation(user, password):
         print(result)
         print(len(result))
 
-UserValidation('john.doe.inspect@gmail.com','123456')
+UserValidation('adm@gmail.com','123456')

@@ -106,14 +106,31 @@ def ClientMessages(client, address):
 
             #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
-            ########### CADASTRO DE DESPEJO ############
+            ########### CADASTRO DE DESPEJOS ############
 
-            elif msg[:15] == "#!cadDespejo!# ":
-                msg = msg[15:]
+            elif msg[:13] == "#!cadastro!# ":
+                msg = msg[13:]
                 msg = str(msg).split("  :  ")
 
-                response = "#!cadDespejo!# " + str(CadDespejo(msg[0], msg[1], msg[2], msg[3], msg[4]))
-                client.send(response.encode("UTF-8"))
+                msg = "#!cadastro!# " + str(CadDespejo(msg[0], msg[1], msg[2], msg[3], msg[4]))
+                client.send(msg.encode("UTF-8"))
+
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
+            ########### COLETAR DADOS DA TABELA DESPEJOS ############
+
+            elif msg[:14] == "#!dashboard!# ":
+                rows = GetDespejo()
+                if rows != "vazio":
+                    for row in rows:
+                        print(row)
+                        msg = "#!dashboard!# " + row
+                        SendMessage(msg, "")
+                else:
+                    msg = "#!dashboard!# " + "vazio"
+                    SendMessage(msg, "")
+
+            #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
             ########### CLOSE CLIENT ############
 
@@ -123,7 +140,9 @@ def ClientMessages(client, address):
                 usernames.remove(usernames[clients.index(client)])
                 clients.remove(clients[clients.index(client)])
                 client.close()
+
             #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
+
         except:
             pass
 
@@ -150,18 +169,41 @@ def SendMessage(msg, client):
         if i != client:
             i.send(msg.encode('UTF-8'))
 
-# Valida o úsuario e senha
+# Cadastra despejo no banco de dados
 def CadDespejo(company, typeEviction, qty, region, description):
     global con
-    global usernames
     try:
         if con.is_connected():
             cursor = con.cursor()
-            cursor.execute(f'INSERT INTO USUARIOS(ID_USUARIO, TIPO_USUARIO, USUARIO, SENHA, NOME) VALUES (null, "Usuario", "client@gmail.com", "123456", "client");')
+            cursor.execute(f'INSERT INTO DESPEJOS(ID_DESPEJOS, TIPO_DESPEJO, EMPRESA, REGIAO, DESCRICAO, QUANTIDADE) VALUES (null, "{typeEviction}", "{company}", "{region}", "{description}", {qty});')
             con.commit()
             return "true"
     except:
         return "false"
+
+# Retorna dados existentes na tabela despejos
+def GetDespejo():
+    global con
+    if con.is_connected():
+        cursor = con.cursor()
+        cursor.execute(f"SELECT * FROM DESPEJOS;")
+        result = cursor.fetchall()
+        rows = list()
+        if len(result) != 0:
+            for row in result:
+                row = str(row).replace('(','').replace(')','').replace(' \'','').replace('\'', '').split(',')
+                id = row[0]
+                typeEviction = row[1]
+                company = row[2]
+                region = row[3]
+                description = row[4]
+                qty = row[5]
+                msg = id + "  :  " + company + "  :  " + typeEviction + "  :  " + qty + "  :  " + region + "  :  " + description
+                rows.append(msg)
+            rows.append("fim  :  fim")
+            return rows
+        else:
+            return "vazio"
 
 ########### INICIO (AGUARDA A CONEXÃO COM O CLIENTE) ##############
 initialConnection()

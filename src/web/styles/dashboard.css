@@ -1,108 +1,51 @@
-.main__container {
-  width: 100vw;
-  height: 100vh;
-  display: grid;
-  grid-template-columns: 250px auto;
+.main__container__dashboard {
+  width: calc(100vw - 350px);
+  height: calc(100vh - 190px);
+  padding: 32px 70px 32px 32px;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
-.main__container .sidebar {
+.visao_geral {
   width: 100%;
-  height: 100%;
-  background-color: #fff;
-  display: grid;
-  grid-template-rows: 120px auto;
-  border-right: 1px solid #6d6b6c30;
-}
-
-.sidebar__logo {
-  border: 1px solid #d2dbea;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.logo__image {
-  height: 100%;
-}
-
-.dashboard__header {
-  width: 100%;
-  height: 100px;
-  display: flex;
-  padding: 10px 30px;
-  align-items: center;
-  border-bottom: 1px solid #6d6b6c50;
-}
-
-.header__perfil {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-  margin-right: 100px;
-}
-
-.perfil__icone {
-  background-color: #b8b9bb;
-  padding: 10px 12px;
-  border-radius: 50px;
-  color: #fff;
-  font-weight: bold;
-  margin-right: 16px;
-}
-
-h1 {
-  color: #6d6b6c;
-}
-
-.chat__subheader {
-  width: 100%;
-  height: 50px;
-  background-color: #e5eaf0;
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
+  gap: 32px;
 }
 
-.chat__container {
+.visao_geral div {
   width: 100%;
-  height: 100%;
   background-color: #d2dbea;
+  padding: 16px;
+  border-radius: 8px;
 }
 
-.chat__mensagens {
+.visao_geral div p:nth-child(2) {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.tabela {
+  margin: 32px 0px 0px 0px;
+}
+
+.tabela table {
   width: 100%;
-  height: calc(100% - 100px);
-  display: grid;
-  grid-template-rows: auto 85px;
+  border-collapse: collapse;
+  margin: 16px 0px 0px;
 }
 
-.mensagens__historico {
-  width: 100%;
-  height: 100%;
+.tabela table thead tr th {
+  padding: 16px;
+  background-color: #d2dbea;
+  text-align: left;
 }
 
-.mensagens__chat {
-  width: calc(100% - 60px);
-  height: 100%;
-  background-color: #e5eaf0;
-  display: grid;
-  grid-template-columns: 50px auto 50px;
-  padding: 9px 30px;
-  gap: 16px;
+.tabela table tbody tr td {
+  padding: 16px;
 }
 
-.chat__input {
-  width: 100%;
-  height: 40px;
-  font-size: 24px;
-  outline: none;
-  background-color: transparent;
-  border: none;
-  padding: 3px 10px 0px;
-}
-
-.chat__icon,
-.enviar__btn {
-  padding: 4px;
-  height: 40px;
-  cursor: pointer;
+.tabela table tbody tr:nth-child(even) {
+  background-color: #d2dbea30;
 }

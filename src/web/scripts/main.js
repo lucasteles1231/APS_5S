@@ -43,22 +43,26 @@ function onProgramStart() {
 }
 onProgramStart();
 
+function timer() {
+  setInterval(() => {
+    sendMessageMain("", "dashboard")
+  }, 10000);
+}
+
 // envia mensagem para o servidor
 async function sendMessageMain(msg, screen) {
   eel.SendMessage(msg, screen)();
 }
 
 // recebe mensagem do servidor
-function receiveMessage(msg, num, screen) {
+function receiveMessage(msg, screen) {
   console.log(msg);
   console.log(screen);
-  numMsg = parseInt(document.getElementById("num").value);
-  if(numMsg<=num){
+
+  if (typeof msg === "string"){
 
     // CHAT
     if (screen == "chat"){
-      num += 1;
-      document.getElementById("num").value = num.toString();
       var div = document.createElement("div");
       div.classList.add("balloon_left");
       var text = document.createTextNode(msg);
@@ -66,12 +70,9 @@ function receiveMessage(msg, num, screen) {
       var element = document.getElementById("msg_div_main");
       element.appendChild(div);
       element.scrollTop = element.scrollHeight;
-    
-    // DASHBOARD
-    } else if(screen == "dashboard"){
-      
-    // CADASTRO DE EMPRESA
-    } else if(screen == "cadastro"){
+    }
+      // CADASTRO DE EMPRESA
+    else if(screen == "cadastro"){
       if (msg == "true") {
         alert("Novo despejo cadastrado com sucesso!");
         document.getElementById("cadastro-empresa").value = "";
@@ -83,7 +84,7 @@ function receiveMessage(msg, num, screen) {
         alert("Despejo não cadastrado, verifique se preencheu corretamente os campos!");
       }
     }
-
+    
     // LOGIN
     else if(screen == "login"){
       msg = msg.split("  :  ");
@@ -101,6 +102,59 @@ function receiveMessage(msg, num, screen) {
         document.getElementById("perfil__nome").textContent = nome;
         document.getElementById("perfil__icone").textContent = ico;
         changeScreen('chat');
+        timer();
+      }
+    }
+  } else{
+    // DASHBOARD
+     if(screen == "dashboard"){
+  
+      var tbl = document.getElementById("table_dashboard").rows.length;
+      tbl = tbl - 1;
+      for (let i=1; i<=tbl; i++)  {
+        document.getElementById("table_dashboard").deleteRow(1);
+      };
+
+      var tamRows = msg.length;
+      console.log(tamRows != 0);
+      if(tamRows != 0){
+        for (let j=0; j<tamRows; j++){
+          var thisrow = msg[j];
+          const splitrow = thisrow.split("  :  ");
+          console.log(splitrow[0]);
+          console.log(splitrow[1]);
+          console.log(splitrow[2]);
+          console.log(splitrow[3]);
+          console.log(splitrow[4]);
+          console.log(splitrow[5]);
+          var tr = document.createElement("tr");
+          var td1 = document.createElement("td");
+          var id = document.createTextNode(splitrow[0]);
+          td1.appendChild(id);
+          tr.appendChild(td1);
+          var td2 = document.createElement("td");
+          var company = document.createTextNode(splitrow[1]);
+          td2.appendChild(company);
+          tr.appendChild(td2);
+          var td3 = document.createElement("td");
+          var typeEviction = document.createTextNode(splitrow[2]);
+          td3.appendChild(typeEviction);
+          tr.appendChild(td3);
+          var td4 = document.createElement("td");
+          var qty = document.createTextNode(splitrow[3]);
+          td4.appendChild(qty);
+          tr.appendChild(td4);
+          var td5 = document.createElement("td");
+          var region = document.createTextNode(splitrow[4]);
+          td5.appendChild(region);
+          tr.appendChild(td5);
+          var td6 = document.createElement("td");
+          var description = document.createTextNode(splitrow[5]);
+          td6.appendChild(description);
+          tr.appendChild(td6);
+          var tbody = document.getElementById("tbody_dashboard");
+          tbody.appendChild(tr);
+        }
       }
     }
   }
