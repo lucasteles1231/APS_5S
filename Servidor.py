@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 import mysql.connector
 
 # Inicia servidor
@@ -125,10 +126,11 @@ def ClientMessages(client, address):
                     for row in rows:
                         print(row)
                         msg = "#!dashboard!# " + row
-                        SendMessage(msg, "")
+                        time.sleep(0.1)
+                        client.send(msg.encode('UTF-8'))
                 else:
                     msg = "#!dashboard!# " + "vazio"
-                    SendMessage(msg, "")
+                    client.send(msg.encode('UTF-8'))
 
             #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
 
@@ -190,6 +192,7 @@ def GetDespejo():
         result = cursor.fetchall()
         rows = list()
         if len(result) != 0:
+            rows.append(f"num  :  {len(result)}")
             for row in result:
                 row = str(row).replace('(','').replace(')','').replace(' \'','').replace('\'', '').split(',')
                 id = row[0]

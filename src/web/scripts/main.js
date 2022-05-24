@@ -46,7 +46,7 @@ onProgramStart();
 function timer() {
   setInterval(() => {
     sendMessageMain("", "dashboard")
-  }, 10000);
+  }, 3000);
 }
 
 // envia mensagem para o servidor
@@ -114,19 +114,35 @@ function receiveMessage(msg, screen) {
       for (let i=1; i<=tbl; i++)  {
         document.getElementById("table_dashboard").deleteRow(1);
       };
-
+      var dpjLitro = 0;
+      var dpjQuilo = 0;
       var tamRows = msg.length;
       console.log(tamRows != 0);
       if(tamRows != 0){
         for (let j=0; j<tamRows; j++){
           var thisrow = msg[j];
           const splitrow = thisrow.split("  :  ");
-          console.log(splitrow[0]);
-          console.log(splitrow[1]);
-          console.log(splitrow[2]);
-          console.log(splitrow[3]);
-          console.log(splitrow[4]);
-          console.log(splitrow[5]);
+          if(splitrow[2] == "Litro"){
+            console.log(dpjLitro);
+            console.log(parseFloat(splitrow[3]));
+            dpjLitro += parseFloat(splitrow[3]);
+            console.log(dpjLitro);
+          } else if(splitrow[2] == "Mililitro"){
+            console.log(dpjLitro);
+            console.log(parseFloat(splitrow[3]) / 1000);
+            dpjLitro += parseFloat(splitrow[3]) / 1000;
+            console.log(dpjLitro);
+          } else if(splitrow[2] == "Quilograma") {
+            console.log(dpjQuilo);
+            console.log(parseFloat(splitrow[3]));
+            dpjQuilo += parseFloat(splitrow[3]);
+            console.log(dpjQuilo);
+          } else if(splitrow[2] == "Tonelada"){
+            console.log(dpjQuilo);
+            console.log(parseFloat(splitrow[3]) * 1000);
+            dpjQuilo += parseFloat(splitrow[3]) * 1000;
+            console.log(dpjQuilo);
+          }
           var tr = document.createElement("tr");
           var td1 = document.createElement("td");
           var id = document.createTextNode(splitrow[0]);
@@ -136,14 +152,6 @@ function receiveMessage(msg, screen) {
           var company = document.createTextNode(splitrow[1]);
           td2.appendChild(company);
           tr.appendChild(td2);
-          var td3 = document.createElement("td");
-          var typeEviction = document.createTextNode(splitrow[2]);
-          td3.appendChild(typeEviction);
-          tr.appendChild(td3);
-          var td4 = document.createElement("td");
-          var qty = document.createTextNode(splitrow[3]);
-          td4.appendChild(qty);
-          tr.appendChild(td4);
           var td5 = document.createElement("td");
           var region = document.createTextNode(splitrow[4]);
           td5.appendChild(region);
@@ -152,8 +160,19 @@ function receiveMessage(msg, screen) {
           var description = document.createTextNode(splitrow[5]);
           td6.appendChild(description);
           tr.appendChild(td6);
+          var td3 = document.createElement("td");
+          var typeEviction = document.createTextNode(splitrow[2]);
+          td3.appendChild(typeEviction);
+          tr.appendChild(td3);
+          var td4 = document.createElement("td");
+          var qty = document.createTextNode(splitrow[3]);
+          td4.appendChild(qty);
+          tr.appendChild(td4);
           var tbody = document.getElementById("tbody_dashboard");
           tbody.appendChild(tr);
+          document.getElementById("num_casos_dash").innerHTML = tamRows;
+          document.getElementById("num_despejo_peso").innerHTML = dpjQuilo;
+          document.getElementById("num_despejo_litro").innerHTML = dpjLitro;
         }
       }
     }

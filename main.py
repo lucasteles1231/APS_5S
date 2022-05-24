@@ -16,6 +16,8 @@ client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 rows = list()
 
+tamrows = 0
+
 # EXECUTA COMANDOS DE INICIALIZAÇÃO
 
 
@@ -66,6 +68,8 @@ def ReceiveMessage():
   global name
   global client
   global stopWhile
+  global rows
+  global tamrows
   num = 0
   while stopWhile:
     try:
@@ -95,8 +99,13 @@ def ReceiveMessage():
       elif msg[:14] == "#!dashboard!# ":
         msg = msg[14:]
         print(msg)
-        if msg == "fim  :  fim":
-          eel.receiveMessage(rows, "dashboard")
+        if msg[:8] == "num  :  ":
+          msg = msg[8:]
+          tamrows = int(msg)
+        elif msg == "fim  :  fim":
+          if len(rows) == tamrows:
+            print(rows)
+            eel.receiveMessage(rows, "dashboard")
           rows.clear()
         elif msg == "vazio":
           eel.receiveMessage(rows, "dashboard")
