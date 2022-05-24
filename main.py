@@ -20,6 +20,9 @@ tamrows = 0
 
 screen = ""
 
+ip = ""
+port = ""
+
 # EXECUTA COMANDOS DE INICIALIZAÇÃO
 
 
@@ -33,9 +36,12 @@ screen = ""
 @eel.expose
 def onStart():
   global screen
+  global ip
+  global port
+  dados = [screen, name, ip, port]
   if screen == "":
     pyautogui.hotkey('winleft', 'up')
-  dados = [screen, name]
+    screen = "login"
 
   return dados
 
@@ -50,6 +56,10 @@ def SaveScreen(Screen):
 @eel.expose
 def StartConnection(IpPort):
   global client
+  global ip
+  global port
+  ip = str(IpPort).split(":")[0]
+  port = str(IpPort).split(":")[1]
   try:
     ServerIP = str(IpPort).split(":")[0]
     PORT = str(IpPort).split(":")[1]

@@ -40,8 +40,13 @@ function showMenu() {
 eel
 .onStart()()
 .then((result) => {
-  if(result[0] != ""){
+  if(result[0] != "" && result[0] != "login"){
     refresh(result);
+  } else if(result[2].length != 0 && result[3].length !=0){
+    document.getElementById('form_login').style.display = "block";
+    document.getElementById('form_ip_con').style.display = "none";
+    document.getElementById('login_user').disabled = false;
+    document.getElementById('login_password').disabled = false;
   }
 });
 
