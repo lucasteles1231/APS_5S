@@ -3,47 +3,58 @@
 <link rel="stylesheet" href="../styles/cadastro.css" />
 
 <main id="main_cadastro" class="cadastro">
-  <form>
-    <h2>CADASTRAR NOVO DESPEJO</h2>
-    <label for="cadastro-empresa">Empresa</label>
-    <input
-      id="cadastro-empresa"
-      type="text"
-      placeholder="Nome completo da empresa"
-    />
+  <div class="container">
+    <div class="col-md-12">
+      <form>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="cadastro-empresa">Empresa</label>
+            <input id="cadastro-empresa" type="text" class="form-control" />
+          </div>
+          <div class="col-md-6">
+            <label for="cadastro-tipo">Selecione o tipo de unidade de despejo</label>
+            <select class="form-control" name="tipos" id="cadastro-tipo">
+              <option value="" disabled selected>Selecione <span style="color: red;">*</span></option>
+              <option value="Quilograma">Quilograma</option>
+              <option value="Tonelada">Tonelada</option>
+              <option value="Litro">Litro</option>
+              <option value="Mililitro">Mililítro</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="login-quantidade">Quantidade</label>
+            <input class="form-control" id="cadastro-quantidade" min="0" type="number" placeholder="0" />
+          </div>
 
-    <label for="cadastro-tipo">Selecione o tipo unidade de despejo</label>
-    <select name="tipos" id="cadastro-tipo">
-      <option value="" disabled selected>Selecione o tipo de despejo</option>
-      <option value="Quilograma">Quilograma</option>
-      <option value="Tonelada">Tonelada</option>
-      <option value="Litro">Litro</option>
-      <option value="Mililitro">Mililítro</option>
-    </select>
-
-    <label for="login-quantidade">Quantidade</label>
-    <input id="cadastro-quantidade" type="number" placeholder="0" />
-
-    <label for="cadastro-regiao">Selecione a região</label>
-    <select name="regiao" id="cadastro-regiao">
-      <option value="" disabled selected>Selecione a região</option>
-      <option value="Norte">Norte</option>
-      <option value="Leste">Leste</option>
-      <option value="Oeste">Oeste</option>
-      <option value="Sul">Sul</option>
-    </select>
-
-    <label for="cadastro-decsricao">Descrição da Inspeção</label>
-    <input
-      id="cadastro-descricao"
-      type="text"
-      placeholder="Descreva um pouco sobre a inspeção realizada"
-    />
-
-    <button type="button" class="login__form__btn" onclick="cadastrar()">
-      CADASTRAR DESPEJO
-    </button>
-  </form>
+          <div class="col-md-6">
+            <label for="cadastro-regiao">Selecione a região</label>
+            <select class="form-control" name="regiao" id="cadastro-regiao">
+              <option value="" disabled selected>Selecione <span style="color: red;">*</span></option>
+              <option value="Norte">Norte</option>
+              <option value="Leste">Leste</option>
+              <option value="Oeste">Oeste</option>
+              <option value="Sul">Sul</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label for="cadastro-descricao">Descrição inspeção</label>
+            <textarea id="cadastro-descricao" placeholder="Descreva um pouco sobre a inspeção realizada"
+              class="form-control"></textarea>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <button id="btn_ip_con" type="button" class="btn col-6" onclick="cadastrar()">
+            CADASTRAR DESPEJO
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </main>
 <script src="../scripts/cadastro.js"></script>
 

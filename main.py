@@ -91,7 +91,6 @@ def ReceiveMessage():
   global stopWhile
   global rows
   global tamrows
-  num = 0
   while stopWhile:
     try:
       msg = (client.recv(2048).decode('UTF-8'))
@@ -100,8 +99,9 @@ def ReceiveMessage():
       #Login
       if msg[:10] == "#!login!# ":
         msg = msg[10:]
-        name = msg
-        msg = msg + "  :  " + msg[:1]
+        msg = msg.split("  :  ")
+        name = msg[0]
+        msg = msg[0] + "  :  " + msg[0][:1] + "  :  " + msg[1]
         print(msg)
         eel.receiveMessage(msg, "login")
 
@@ -114,7 +114,6 @@ def ReceiveMessage():
       elif msg[:9] == "#!chat!# ":
         msg = msg[9:]
         eel.receiveMessage(msg, "chat")
-        num += 1
 
       #Dashboard
       elif msg[:14] == "#!dashboard!# ":

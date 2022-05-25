@@ -2,6 +2,13 @@
 // Passa-se o id da div como parâmetro para que haja a comparação com a
 // Lista de telas registradas, podendo assim definir qual tela será exibida ou não.
 
+function verificaUser() { 
+  var tipoUser = 1; //Alterar aqui para tipo usuario
+  if (tipoUser != 1) {
+    document.getElementById("usuarios-btn").style.display = "none";
+  }
+}
+
 function changeScreen(screenName) {
   const screens = ["login", "dashboard", "chat", "cadastro"];
   
@@ -14,6 +21,29 @@ function changeScreen(screenName) {
     
     // Caso o id seja equivalente ao informado na chamada da função, a div será exibida
     // Senão, é aplicado o estilo "display: none" para que a visualização seja ocultada.
+    switch (screenName) {
+      case "chat":
+        document.getElementById("chat-btn").classList.add("selected");
+        document.getElementById("usuarios-btn").classList.remove("selected");
+        document.getElementById("dashboard-btn").classList.remove("selected");
+
+        document.getElementById("header-titulo").innerHTML = "CHAT";
+        break;
+      case "cadastro":
+        document.getElementById("chat-btn").classList.remove("selected");
+        document.getElementById("usuarios-btn").classList.add("selected");
+        document.getElementById("dashboard-btn").classList.remove("selected");
+
+        document.getElementById("header-titulo").innerHTML = "CADASTRO DE DESPEJOS";
+        break;
+      case "dashboard":
+        document.getElementById("chat-btn").classList.remove("selected");
+        document.getElementById("usuarios-btn").classList.remove("selected");
+        document.getElementById("dashboard-btn").classList.add("selected");
+
+        document.getElementById("header-titulo").innerHTML = "DASHBOARD";
+        break;
+    }
     if (screens[i] === screenName) {
       console.log('block');
       screen.style.display = "block";
@@ -53,7 +83,7 @@ eel
 function refresh(dados){
   showMenu();
   document.getElementById("perfil__nome").textContent = dados[1];
-  document.getElementById("perfil__icone").textContent = dados[1].split("")[0];
+  document.getElementById("perfil__icone").textContent = dados[1].split("")[0].toUpperCase();
   console.log(dados[0]);
   changeScreen(dados[0]);
   timer();
@@ -79,10 +109,21 @@ function receiveMessage(msg, screen) {
 
     // CHAT
     if (screen == "chat"){
+      var splitmsg =  msg.split("  :  ");
       var div = document.createElement("div");
       div.classList.add("balloon_left");
-      var text = document.createTextNode(msg);
+
+      var h6 = document.createElement("h6");
+      h6.style.color = "red";
+      
+      var nome = document.createTextNode(splitmsg[1]);
+      h6.appendChild(nome);
+      div.appendChild(h6);
+      
+      var text = document.createTextNode(splitmsg[0]);
       div.appendChild(text);
+
+      
       var element = document.getElementById("msg_div_main");
       element.appendChild(div);
       element.scrollTop = element.scrollHeight;
@@ -106,6 +147,7 @@ function receiveMessage(msg, screen) {
       msg = msg.split("  :  ");
       nome = msg[0];
       ico = msg[1];
+      nivel = msg[2];
       console.log(nome);
       console.log(ico);
       console.log(screen);
@@ -115,6 +157,10 @@ function receiveMessage(msg, screen) {
         alert("Usuário não existe!");
       } else {
         showMenu();
+        if (nivel == "Usuario"){
+          document.getElementById("usuarios-btn").style.display = "none";
+          document.getElementById("dashboard-btn").style.display = "none";
+        }
         document.getElementById("perfil__nome").textContent = nome;
         document.getElementById("perfil__icone").textContent = ico;
         changeScreen('chat');

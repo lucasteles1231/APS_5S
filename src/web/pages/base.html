@@ -1,28 +1,38 @@
 <!-- Arquivo base para a renderizar dos componentes das telas da aplicação -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Título da aplicação que será exibido na barra superior -->
-    <title>APS</title>
 
-    <!-- Tags de aprimoramento de compatibilidade -->
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+  <!-- Título da aplicação que será exibido na barra superior -->
+  <title>APS</title>
 
-    <!-- Referencia o arquivo de estilos globais -->
-    <link rel="stylesheet" href="../styles/styles.css" />
+  <!-- Tags de aprimoramento de compatibilidade -->
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <!-- Referencia o arquivo de estilos globais -->
+  <link rel="stylesheet" href="../styles/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <!-- Import da biblioteca necessária para fazer o vínculo entre o Python e o JavaScript -->
-    <script type="text/javascript" src="/eel.js"></script>
-  </head>
-  <body>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600&family=Roboto+Mono:wght@300;400&display=swap"
+    rel="stylesheet">
+  <!-- Import da biblioteca necessária para fazer o vínculo entre o Python e o JavaScript -->
+  <script type="text/javascript" src="/eel.js"></script>
+</head>
 
-    <!-- Tag principal para a renderização de outros arquivos .html (Biblioteca utilizada: Jinja2) -->
-    {% block content %}
-    {% endblock %}
+<body>
 
-    <!-- Referencia o arquivo de scripts globais -->
-    <script type="text/javascript" src="../scripts/main.js"></script>
-  </body>
+  <!-- Tag principal para a renderização de outros arquivos .html (Biblioteca utilizada: Jinja2) -->
+  {% block content %}
+  {% endblock %}
+
+  <!-- Referencia o arquivo de scripts globais -->
+  <script type="text/javascript" src="../scripts/main.js"></script>
+</body>
+
 </html>

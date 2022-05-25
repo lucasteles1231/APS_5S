@@ -1,7 +1,13 @@
 .login {
-  color: #8999b5;
+  color: #8f8e8e;
   }
-  
+  h1, h5{
+    color: #8298bb
+  }
+
+  .roboto{
+    font-family: 'Roboto Mono', monospace;
+  }
   #main_login {
   display: block;
   }
@@ -10,21 +16,22 @@
     /* Arquivo de estilização específico para a tela de login */
   width: 100vw;
   height: 100vh;
-  background-color: #aabddd;
+  background-color: #aabddc;
   }
   
   #div_login {
-  width: 40%;
+    align-self: flex-end;
+  width: 50%;
   min-width: 350px;
   height: 100%;
   background-color: #fff;
   display: block;
   margin: 0px 0px 0px auto;
-  padding: 60px 0px;
+  padding: 7% 0px;
   }
   
   #header_login {
-  border-bottom: 1px solid #00000030;
+  border-bottom: 1px solid #f2e7fe;
   padding-bottom: 48px;
   text-align: center;
   margin-bottom: 48px;

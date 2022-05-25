@@ -4,25 +4,41 @@
 <link rel="stylesheet" href="../styles/login.css" />
 
 <main id="main_login" class="login">
-  <div id="div_login" class="login">
-    <header id="header_login" class="login">
-      <h1 id="h1_header_login" class="login">Login</h1>
-      <p id="p_header_login" class="login">Faça login para continuar</p>
-    </header>
-    <form id="form_ip_con" class="login">
-      <label for="ip_connection" class="login">IP</label>
-      <input id="ip_connection" class="login" type="text" placeholder="0.0.0.0"/>
-      <label for="port_connection" class="login">PORT</label>
-      <input id="port_connection" class="login" type="text" placeholder="0"/>
-      <button id="btn_ip_con" class="login" type="button" onclick="startConnection()">CONECTAR</button>
-    </form>
-    <form id="form_login" class="login">
-      <label for="login_user" class="login">Por favor, insira o e-mail</label>
-      <input id="login_user" class="login" type="text" placeholder="email@dominio.com.br" disabled=true/>
-      <label for="login_password" class="login">Digite a senha</label>
-      <input id="login_password" class="login" type="password" placeholder="*********" disabled=true/>
-      <button id="btn_login" class="login" type="button" onclick="authenticate()" desabled="true">LOGIN</button>
-    </form>
+
+  <div class="row flex">
+
+    <div id="" class="col-6">
+      <img src="../../assets/logoNovoInvertido.png" style="padding: 14.6% 13.6%">
+    </div>
+    <div id="div_login" class="login col-6">
+      <header id="header_login">
+        <h1 id="h1_header_login" class="display-3 roboto"><b>Login</b></h1>
+        <h5 id="p_header_login" class="roboto">Faça login para continuar</h5>
+      </header>
+      <form id="form_ip_con" class="login">
+        <div class="container col-md-12">
+          <label for="ip_connection" class="login roboto">IP</label>
+          <input id="ip_connection" class="form-control " type="text" />
+
+          <label for="port_connection" class="login roboto">PORT</label>
+          <input id="port_connection" class="form-control" type="text" />
+          <br>
+          <div align="center">
+            <button id="btn_ip_con" class="btn col-6" type="button" onclick="startConnection()">CONECTAR</button>
+          </div>
+        </div>
+      </form>
+      <form id="form_login" class="login">
+        <label for="login_user" class="login roboto">Insira o e-mail</label>
+        <input id="login_user" class="form-control" type="text" disabled=true />
+        <label for="login_password" class="login roboto">Digite a senha</label>
+        <input id="login_password" class="form-control" type="password" disabled=true />
+        <br>
+        <div align="center">
+          <button id="btn_ip_con" class="btn col-6" type="button" onclick="authenticate()">LOGIN</button>
+        </div>
+      </form>
+    </div>
   </div>
 </main>
 

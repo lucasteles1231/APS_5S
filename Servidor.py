@@ -88,6 +88,7 @@ def ClientMessages(client, address):
                     msg = "#!login!# " + response
                     print(11)
                     client.send(msg.encode('UTF-8'))
+                    response = msg.split("  :  ")[0]
                     SendMessage(f"#!chat!# {str(response)} joined the chat!!", client)
                     print(11)
                     usernames.append(response)
@@ -103,6 +104,8 @@ def ClientMessages(client, address):
             ########### CHAT ############
 
             elif msg[:9] == "#!chat!# ":
+                name = username[clients.index(client)]
+                msg =  msg + "  :  " + name
                 SendMessage(msg, client)
 
             #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
@@ -159,14 +162,15 @@ def UserValidation(user, password):
         result = cursor.fetchall()
         if len(result) != 0:
             if not str(result[0]).replace('(','').replace(')','').split(',')[4].replace(' \'','').replace('\'', '') in usernames:
-                return str(result[0]).replace('(','').replace(')','').split(',')[4].replace(' \'','').replace('\'', '')
+                msg = str(str(result[0]).replace('(','').replace(')','').split(',')[4].replace(' \'','').replace('\'', '')) + "  :  " + str(str(result[0]).replace('(','').replace(')','').split(',')[1].replace(' \'','').replace('\'', ''))
+                return msg
             else:
                 return 1
         else:
             return 2
 
 # Manda mensagem para o contato
-def SendMessage(msg, client):
+def SendMessage(msg, client, name):
     for i in clients:
         if i != client:
             i.send(msg.encode('UTF-8'))

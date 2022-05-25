@@ -6,19 +6,17 @@
   <div class="chat__container">
     <div class="chat__mensagens" id="chat__mensagens">
       <div class="mensagens__historico" id="msg_div_main"></div>
-      <div class="mensagens__chat">
+      <br>
+      <div class="mensagens__chat row">
         <div>
-          <img class="chat__icon" src="../../assets/circulo.png" />
+          <i style="font-size: 50px;" class="material-icons">&#xe853;</i>
         </div>
         <div>
-          <input type="text" class="chat__input" id="input_chat" placeholder="Mensagem" />
+          <input onkeypress="enviarEnter(event)" type="text" class="chat__input" id="input_chat"
+            placeholder="Mensagem" />
         </div>
-        <div>
-          <img
-            onclick="sendMessage()"
-            class="enviar__btn"
-            src="../../assets/enviar.png"
-          />
+        <div style="padding: 10px;">
+          <i onclick="sendMessage()" class="material-icons" style="cursor: pointer;">&#xe163;</i>
         </div>
       </div>
     </div>
