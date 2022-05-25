@@ -1,5 +1,3 @@
-from pydoc import cli
-from tkinter import E
 import eel
 import socket
 import threading
