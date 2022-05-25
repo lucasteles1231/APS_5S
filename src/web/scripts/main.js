@@ -82,6 +82,10 @@ eel
 
 function refresh(dados){
   showMenu();
+  if (dados[4] == "Usuario"){
+    document.getElementById("usuarios-btn").style.display = "none";
+    document.getElementById("dashboard-btn").style.display = "none";
+  }
   document.getElementById("perfil__nome").textContent = dados[1];
   document.getElementById("perfil__icone").textContent = dados[1].split("")[0].toUpperCase();
   console.log(dados[0]);

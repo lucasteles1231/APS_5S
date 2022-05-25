@@ -23,6 +23,8 @@ screen = ""
 ip = ""
 port = ""
 
+nivel = ""
+
 # EXECUTA COMANDOS DE INICIALIZAÇÃO
 
 
@@ -36,9 +38,11 @@ port = ""
 @eel.expose
 def onStart():
   global screen
+  global name
   global ip
   global port
-  dados = [screen, name, ip, port]
+  global nivel
+  dados = [screen, name, ip, port, nivel]
   if screen == "":
     pyautogui.hotkey('winleft', 'up')
     screen = "login"
@@ -87,6 +91,7 @@ def StopWhile():
 @eel.expose
 def ReceiveMessage():
   global name
+  global nivel
   global client
   global stopWhile
   global rows
@@ -99,10 +104,11 @@ def ReceiveMessage():
       #Login
       if msg[:10] == "#!login!# ":
         msg = msg[10:]
-        msg = msg.split("  :  ")
-        name = msg[0]
-        msg = msg[0] + "  :  " + msg[0][:1] + "  :  " + msg[1]
-        print(msg)
+        if msg != "USER IS ALREADY CONNECTED" and msg != "USER DOES NOT EXIST":
+          msg = msg.split("  :  ")
+          name = msg[0]
+          nivel = msg[1]
+          msg = msg[0] + "  :  " + msg[0][:1] + "  :  " + msg[1]
         eel.receiveMessage(msg, "login")
 
       #Cadastro Despejo
@@ -118,13 +124,11 @@ def ReceiveMessage():
       #Dashboard
       elif msg[:14] == "#!dashboard!# ":
         msg = msg[14:]
-        print(msg)
         if msg[:8] == "num  :  ":
           msg = msg[8:]
           tamrows = int(msg)
         elif msg == "fim  :  fim":
           if len(rows) == tamrows:
-            print(rows)
             eel.receiveMessage(rows, "dashboard")
           rows.clear()
         elif msg == "vazio":

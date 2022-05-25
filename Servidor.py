@@ -64,37 +64,30 @@ def ClientMessages(client, address):
             
             # Se a mensagem vier com "#!usuario!##!senha!# " no inicio será considerada como dados de login para validação
             if msg[:10] == "#!login!# ":
-                print(1)
                 msg = msg[10:]
-                print(2)
                 username = msg.split("  :  ")[0]
-                print(3)
                 password = msg.split("  :  ")[1]
-                print(4)
                 response = UserValidation(username, password)
-                print(5)
                 if response == 1:
                     msg = "#!login!# " + 'USER IS ALREADY CONNECTED'
-                    print(6)
                     client.send(msg.encode('UTF-8'))
-                    print(7)
                 elif response == 2:
                     msg = "#!login!# " + 'USER DOES NOT EXIST'
-                    print(8)
                     client.send(msg.encode('UTF-8'))
-                    print(9)
                 else:
-                    print(10)
                     msg = "#!login!# " + response
-                    print(11)
+                    print(1)
                     client.send(msg.encode('UTF-8'))
-                    response = msg.split("  :  ")[0]
-                    SendMessage(f"#!chat!# {str(response)} joined the chat!!", client)
-                    print(11)
-                    usernames.append(response)
-                    print(12)
+                    print(2)
+                    nome = response.split("  :  ")[0]
+                    print(3)
+                    SendMessage(f"#!chat!# {str(nome)} joined the chat!!  :  Servidor", client)
+                    print(4)
+                    usernames.append(nome)
+                    print(5)
                     clients.append(client)
-                    print(f"{str(response)} completed connection via login!!")
+                    print(6)
+                    print(f"{str(nome)} completed connection via login!!")
 
 
             #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
@@ -104,8 +97,8 @@ def ClientMessages(client, address):
             ########### CHAT ############
 
             elif msg[:9] == "#!chat!# ":
-                name = username[clients.index(client)]
-                msg =  msg + "  :  " + name
+                name = usernames[clients.index(client)]
+                msg =  msg + "  :  "+ name
                 SendMessage(msg, client)
 
             #-#-#-#-#-#-#-#-#-#-#-#-#-#-#
@@ -127,7 +120,6 @@ def ClientMessages(client, address):
                 rows = GetDespejo()
                 if rows != "vazio":
                     for row in rows:
-                        print(row)
                         msg = "#!dashboard!# " + row
                         time.sleep(0.1)
                         client.send(msg.encode('UTF-8'))
@@ -170,7 +162,7 @@ def UserValidation(user, password):
             return 2
 
 # Manda mensagem para o contato
-def SendMessage(msg, client, name):
+def SendMessage(msg, client):
     for i in clients:
         if i != client:
             i.send(msg.encode('UTF-8'))
